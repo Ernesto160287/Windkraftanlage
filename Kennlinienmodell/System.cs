@@ -19,7 +19,6 @@ namespace Windkraftanlage.Kennlinienmodell
         internal Vektor2 FSeil { get; set; }   // Seilkraft
         private protected double MGelenk;      // Gelenkdrehmoment
 
-
         private protected Bauteil[] bauteile;
 
         private protected System()
@@ -59,11 +58,6 @@ namespace Windkraftanlage.Kennlinienmodell
             return BerechneWiderstandskraftBauteile(v, alpha, beta) + BerechneAuftriebskraftBauteile(v, alpha, beta);
         }
 
-        private protected double BerechneGesamtdrehmomentBauteile(double v, double alpha, double beta)
-        {
-            return BerechneWiderstandsdrehmomentBauteile(v, alpha, beta) + BerechneAuftriebsdrehmomentBauteile(v, alpha, beta);
-        }
-
         private protected Vektor2 BerechneWiderstandskraftBauteile(double v, double alpha, double beta)
         {
             Vektor2 FW = Vektor2.Zero();
@@ -86,7 +80,12 @@ namespace Windkraftanlage.Kennlinienmodell
             return FA;
         }
 
-        private protected double BerechneWiderstandsdrehmomentBauteile(double v, double alpha, double beta)
+        private protected double BerechneGesamtdrehmomentBauteile(double v, double alpha, double beta)
+        {
+            return BerechneWiderstandsdrehmomentBauteile(v, alpha, beta) + BerechneAuftriebsdrehmomentBauteile(v, alpha, beta);
+        }
+
+         private protected double BerechneWiderstandsdrehmomentBauteile(double v, double alpha, double beta)
         {
             double MW = 0.0;
 
