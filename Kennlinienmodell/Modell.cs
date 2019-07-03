@@ -48,14 +48,7 @@ namespace Windkraftanlage.Kennlinienmodell
 
         OptionaleKraefte optionaleKraefte;
 
-        static void Main()
-        {
-            Modell modell = new Modell(6.0, 40.0, 1.0, 1e-4);
-            modell.Initialisiere();
-            modell.Verarbeite();
-        }
-
-        public Modell(double vmin, double vmax, double vSchritt, double genauigkeit, bool alleKraefte = false)
+        internal Modell(double vmin, double vmax, double vSchritt, double genauigkeit, bool alleKraefte = false)
         {
             v = vmin;
             this.vSchritt = vSchritt;
@@ -65,37 +58,15 @@ namespace Windkraftanlage.Kennlinienmodell
             this.alleKraefte = alleKraefte;
         }
 
-        private void Initialisiere()
+        internal void Initialisiere()
         {
             InitialisiereModellparameter();
-
             InitialisiereNumerischeHilfsmittel();
-
             InitialisiereSysteme();
 
             if (alleKraefte)
             {
                 InitialisiereOptionaleKraefte();
-            }
-        }
-
-        private void Verarbeite()
-        {
-            for (int i = 0; i < anzahlSchritte; i++)
-            {
-                AktualisiereGeschwindigkeit();
-
-                beta = BestimmteBeta();
-
-                try
-                {
-                    alpha = BestimmeAlpha();
-                    SpeichereWerte(i);
-                }
-                catch (NumericsFailedException)
-                {
-                    continue;
-                }
             }
         }
 
@@ -124,6 +95,26 @@ namespace Windkraftanlage.Kennlinienmodell
             optionaleKraefte = new OptionaleKraefte(anzahlSchritte);
         }
 
+        internal void Verarbeite()
+        {
+            for (int i = 0; i < anzahlSchritte; i++)
+            {
+                AktualisiereGeschwindigkeit();
+
+                beta = BestimmteBeta();
+
+                try
+                {
+                    alpha = BestimmeAlpha();
+                    SpeichereWerte(i);
+                }
+                catch (NumericsFailedException)
+                {
+                    continue;
+                }
+            }
+        }
+        
         private void AktualisiereGeschwindigkeit()
         {
             v += vSchritt;
@@ -199,15 +190,15 @@ namespace Windkraftanlage.Kennlinienmodell
             seilkraft_Werte[i] = seilkraftFinal;
         }
 
-        private void SpeichereOptionaleKraefte(int i)
-        {
-            // TODO
-        }
-
         private (double, double) BestimmeSeillaengeUndSeilkraft()
         {
             system1.Aktualisiere(alpha, beta);
             return (system1.BerechneSeillaenge(), system1.BerechneSeilkraft());
+        }
+
+        private void SpeichereOptionaleKraefte(int i)
+        {
+            // TODO
         }
     }
 
