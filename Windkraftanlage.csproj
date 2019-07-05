@@ -68,6 +68,7 @@
     <Compile Include="Kennlinienmodell\Bauteil.cs" />
     <Compile Include="Kennlinienmodell\LinkeRotorgondelseite.cs" />
     <Compile Include="Kennlinienmodell\Modell.cs" />
+    <Compile Include="Kennlinienmodell\Modellwerte.cs" />
     <Compile Include="Kennlinienmodell\Punkte.cs" />
     <Compile Include="Kennlinienmodell\Numerikhilfsmittel.cs" />
     <Compile Include="Kennlinienmodell\OptionaleKraefte.cs" />

@@ -25,7 +25,13 @@ namespace Windkraftanlage.Kennlinienmodell
         {
         }
 
-        internal void Aktualisiere(double alpha, double beta)
+        internal void Loese(double v, double alpha, double beta)
+        {
+            Aktualisiere(alpha, beta);
+            WerteAus(v, alpha, beta);
+        }
+
+        private protected void Aktualisiere(double alpha, double beta)
         {
             AktualisierePunkte(alpha, beta);
             AktualisiereBauteile(punkte, alpha, beta);

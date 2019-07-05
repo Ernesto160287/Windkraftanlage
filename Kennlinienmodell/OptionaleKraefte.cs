@@ -2,25 +2,24 @@
 {
     class OptionaleKraefte
     {
-        double[] FGelenk { get; set; }
-        double[] FLager { get; set; }
-        double[] FSchub { get; set; }
-        double[] FWS { get; set; }
-        double[] FAS { get; set; }
-        double[] FWQ { get; set; }
-        double[] FAQ { get; set; }
-        double[] FWR { get; set; }
-        double[] FAR { get; set; }
-        double[] FWT { get; set; }
-        double[] FAT { get; set; }
+        double[] FGelenk;
+        double[] FLager;
+        double[] FSchub;
+        double[] FWS;
+        double[] FAS;
+        double[] FWQ;
+        double[] FAQ;
+        double[] FWR;
+        double[] FAR;
+        double[] FWT;
+        double[] FAT;
 
 
-        public OptionaleKraefte()
+        internal OptionaleKraefte()
         {
-
         }
 
-        public OptionaleKraefte(int arrayGroesse)
+        internal OptionaleKraefte(int arrayGroesse)
         {
             FGelenk = new double[arrayGroesse];
             FLager = new double[arrayGroesse];

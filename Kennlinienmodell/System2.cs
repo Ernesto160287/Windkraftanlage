@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windkraftanlage.Mathematikwerkzeuge;
 using Windkraftanlage.Mathematikwerkzeuge.Integration;
 
@@ -16,7 +12,7 @@ namespace Windkraftanlage.Kennlinienmodell
         Vektor2 FLager;
         double MLager;
 
-        public System2(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base()
+        internal System2(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base()
         {
             bauteile = new Bauteil[5];
             bauteile[0] = new Querfahne(integrator, cW, cA);

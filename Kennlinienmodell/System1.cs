@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windkraftanlage.Mathematikwerkzeuge;
 using Windkraftanlage.Mathematikwerkzeuge.Integration;
 
@@ -16,7 +12,7 @@ namespace Windkraftanlage.Kennlinienmodell
         Vektor2 P2P5;  // Verbindungsvektor Steuerfahne und Trägerkonstruktion
 
 
-        public System1(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base()
+        internal System1(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base()
         {
             bauteile = new Bauteil[1];
             bauteile[0] = new Steuerfahne(integrator, cW, cA);
@@ -73,5 +69,12 @@ namespace Windkraftanlage.Kennlinienmodell
         {
             return Seillaenge * gesamtdrehmomentBauteile / (punkte.P2.y * P2P5.x - punkte.P2.x * P2P5.y);
         }
+
+       internal (double, double) BestimmeSeillaengeUndSeilkraft(double alpha, double beta)
+        {
+            Aktualisiere(alpha, beta);
+            return (BerechneSeillaenge(), BerechneSeilkraft());
+        }
+
     }
 }

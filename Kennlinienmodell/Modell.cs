@@ -1,27 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windkraftanlage.Mathematikwerkzeuge;
-using Windkraftanlage.Mathematikwerkzeuge.Interpolation;
-using Windkraftanlage.Mathematikwerkzeuge.Nullstelle;
 
 namespace Windkraftanlage.Kennlinienmodell
 {
     class Modell
     {
         // charakteristische Verzögerung des Windes hinter einem Hindernis (für GammaRest)
-        public const double nu = 0.15;
+        internal const double nu = 0.15;
 
         // Windfaktor des Rotors
-        public const double GammaRotor = 0.7;
+        internal const double GammaRotor = 0.7;
 
         // Korrektursummand für den Rotor
-        public const double KRotor = 0.2;
+        internal const double KRotor = 0.2;
 
         // Korrektursummand für die übrigen Bauteile
-        public const double KRest = 0.1;
+        internal const double KRest = 0.1;
 
 
         readonly double genauigkeit;
@@ -40,12 +33,7 @@ namespace Windkraftanlage.Kennlinienmodell
         System1 system1;
         System2 system2;
 
-        double[] v_Werte;
-        double[] alpha_Werte;
-        double[] beta_Werte;
-        double[] seillaenge_Werte;
-        double[] seilkraft_Werte;
-
+        Modellwerte modellwerte;
         OptionaleKraefte optionaleKraefte;
 
         internal Modell(double vmin, double vmax, double vSchritt, double genauigkeit, bool alleKraefte = false)
@@ -60,7 +48,7 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal void Initialisiere()
         {
-            InitialisiereModellparameter();
+            InitialisiereModellwerte();
             InitialisiereNumerischeHilfsmittel();
             InitialisiereSysteme();
 
@@ -70,13 +58,9 @@ namespace Windkraftanlage.Kennlinienmodell
             }
         }
 
-        private void InitialisiereModellparameter()
+        private void InitialisiereModellwerte()
         {
-            v_Werte = new double[anzahlSchritte];
-            alpha_Werte = new double[anzahlSchritte];
-            beta_Werte = new double[anzahlSchritte];
-            seillaenge_Werte = new double[anzahlSchritte];
-            seilkraft_Werte = new double[anzahlSchritte];
+            modellwerte = new Modellwerte(anzahlSchritte);
         }
 
         private void InitialisiereNumerischeHilfsmittel()
@@ -89,11 +73,11 @@ namespace Windkraftanlage.Kennlinienmodell
             system1 = new System1(numerik.integrator, numerik.cW, numerik.cA);
             system2 = new System2(numerik.integrator, numerik.cW, numerik.cA);
         }
-
         private void InitialisiereOptionaleKraefte()
         {
             optionaleKraefte = new OptionaleKraefte(anzahlSchritte);
         }
+
 
         internal void Verarbeite()
         {
@@ -140,17 +124,11 @@ namespace Windkraftanlage.Kennlinienmodell
 
         private double BerechneGesamtdrehmoment(double alphaVar)
         {
-            LoeseSystem1(alphaVar);
+            system1.Loese(v, alphaVar, beta);
             UebertrageKraefteVonSystem1AufSystem2();
-            LoeseSystem2(alphaVar);
+            system2.Loese(v, alphaVar, beta);
 
             return system2.BerechneGesamtdrehmoment();
-        }
-
-        private void LoeseSystem1(double alphaVar)
-        {
-            system1.Aktualisiere(alphaVar, beta);
-            system1.WerteAus(v, alphaVar, beta);
         }
 
         private void UebertrageKraefteVonSystem1AufSystem2()
@@ -159,15 +137,9 @@ namespace Windkraftanlage.Kennlinienmodell
             system2.FGelenk = -system1.FGelenk;
         }
 
-        private void LoeseSystem2(double alphaVar)
-        {
-            system2.Aktualisiere(alphaVar, beta);
-            system2.WerteAus(v, alphaVar, beta);
-        }
-
         private void SpeichereWerte(int i)
         {
-            SpeichereModellparameter(i);
+            SpeichereModellwerte(i);
 
             if (alleKraefte)
             {
@@ -175,25 +147,20 @@ namespace Windkraftanlage.Kennlinienmodell
             }
         }
 
-        private void SpeichereModellparameter(int i)
+        private void SpeichereModellwerte(int i)
         {
-            v_Werte[i] = v;
-            alpha_Werte[i] = alpha;
-            beta_Werte[i] = beta;
+            (double seillaenge, double seilkraft) = system1.BestimmeSeillaengeUndSeilkraft(alpha, beta);
+            seillaenge = VerkuerzeUmSeillaengeStart(i, seillaenge);
 
-            (double seillaengeFinal, double seilkraftFinal) = BestimmeSeillaengeUndSeilkraft();
-
-            if (i == 0)
-                seillaengeStart = seillaengeFinal;
-
-            seillaenge_Werte[i] = seillaengeFinal - seillaengeStart;
-            seilkraft_Werte[i] = seilkraftFinal;
+            modellwerte.SpeichereAktuelleWerte(i, v, alpha, beta, seillaenge, seilkraft);
         }
 
-        private (double, double) BestimmeSeillaengeUndSeilkraft()
+        private double VerkuerzeUmSeillaengeStart(int i, double laenge)
         {
-            system1.Aktualisiere(alpha, beta);
-            return (system1.BerechneSeillaenge(), system1.BerechneSeilkraft());
+            if (i == 0)
+                seillaengeStart = laenge;
+
+            return laenge - seillaengeStart;
         }
 
         private void SpeichereOptionaleKraefte(int i)
