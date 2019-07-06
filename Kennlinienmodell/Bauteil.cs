@@ -17,6 +17,7 @@ namespace Windkraftanlage.Kennlinienmodell
             this.integrator = integrator;
             this.cW_Basis = cW_Basis;
             this.cA_Basis = cA_Basis;
+            SetzeProfil();
         }
 
         internal abstract void Aktualisiere(Punkte modellpunkte, double alpha, double beta);
@@ -30,6 +31,7 @@ namespace Windkraftanlage.Kennlinienmodell
         private protected abstract double vW(double l, double v);
         private protected abstract double cW(double l, double alpha, double beta);
         private protected abstract double cA(double l, double alpha, double beta);
+        private protected abstract void SetzeProfil();
     }
 
 }

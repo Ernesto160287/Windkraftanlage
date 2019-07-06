@@ -37,7 +37,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal Steuerfahne(Integration integrator, Func<double, double> cW, Func<double,double> cA) : base(integrator, cW, cA)
         {
-            SetzeProfil();
         }
 
         internal override void Aktualisiere(Punkte punkte, double alpha, double beta)
@@ -73,7 +72,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return -integrator.Integriere(integrand, 0.0, Parameter.l1b);
         }
 
-        private void SetzeProfil()
+        private protected override void SetzeProfil()
         {
             profil = l =>
             {

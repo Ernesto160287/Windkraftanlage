@@ -36,7 +36,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal Querfahne(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base(integrator, cW, cA)
         {
-            SetzeProfil();
         }
 
         internal override void Aktualisiere(Punkte punkte, double alpha, double beta)
@@ -74,7 +73,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return punkte.P12.x * integrator.Integriere(integrand1, -Parameter.l4, Parameter.l6b) + integrator.Integriere(integrand2, -Parameter.l4, Parameter.l6b);
         }
 
-        private void SetzeProfil()
+        private protected override void SetzeProfil()
         {
             profil = l =>
             {

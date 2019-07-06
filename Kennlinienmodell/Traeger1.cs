@@ -24,7 +24,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal Traeger1(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base(integrator, cW, cA)
         {
-            SetzeProfil();
         }
 
         internal override void Aktualisiere(Punkte punkte, double alpha, double beta)
@@ -58,7 +57,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return punkte.P4.x * integrator.Integriere(integrand1, 0.0, Parameter.l5b) + integrator.Integriere(integrand2, 0.0, Parameter.l5b);
         }
 
-        private void SetzeProfil()
+        private protected override void SetzeProfil()
         {
             profil = l =>
             {
