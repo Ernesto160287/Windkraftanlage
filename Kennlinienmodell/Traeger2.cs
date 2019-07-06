@@ -24,7 +24,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal Traeger2(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base(integrator, cW, cA)
         {
-            Name = Art.Traeger1;
             SetzeProfil();
         }
 

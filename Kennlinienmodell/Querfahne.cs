@@ -36,7 +36,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal Querfahne(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base(integrator, cW, cA)
         {
-            Name = Art.Querfahne;
             SetzeProfil();
         }
 

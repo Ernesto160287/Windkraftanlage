@@ -4,26 +4,13 @@ using Windkraftanlage.Mathematikwerkzeuge.Integration;
 
 namespace Windkraftanlage.Kennlinienmodell
 {
-    internal enum Art
-    {
-        Querfahne,
-        Steuerfahne,
-        LinkeRotorgondelseite,
-        Traeger1,
-        Traeger2,
-        Traeger3
-    }
-
     abstract class Bauteil
     {
-        protected internal Art Name { get; set; }
-
         private protected readonly Integration integrator;
         private protected readonly Func<double, double> cW_Basis;
         private protected readonly Func<double, double> cA_Basis;
 
         private protected Func<double, double> profil;
-
 
         private protected Bauteil(Integration integrator, Func<double, double> cW_Basis, Func<double, double> cA_Basis)
         {

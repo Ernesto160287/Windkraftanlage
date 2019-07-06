@@ -26,7 +26,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal LinkeRotorgondelseite(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base(integrator, cW, cA)
         {
-            Name = Art.LinkeRotorgondelseite;
             SetzeProfil();
         }
 

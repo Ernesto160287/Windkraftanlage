@@ -37,7 +37,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal Steuerfahne(Integration integrator, Func<double, double> cW, Func<double,double> cA) : base(integrator, cW, cA)
         {
-            Name = Art.Steuerfahne;
             SetzeProfil();
         }
 
