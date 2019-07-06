@@ -18,6 +18,22 @@ namespace Windkraftanlage.Kennlinienmodell
             bauteile[0] = new Steuerfahne(integrator, cW, cA);
         }
 
+        private protected override void AktualisierePunkte(double alpha, double beta)
+        {
+            base.Aktualisiere(alpha, beta);
+            AktualisiereP2P5();
+        }
+
+        private void AktualisiereP2P5()
+        {
+            P2P5 = new Vektor2(punkte.P2, punkte.P5);
+        }
+
+        private protected override Vektor2 BestimmeVerschiebung(double beta)
+        {
+            return Vektor2.Zero();
+        }
+
         internal override void WerteAus(double v, double alpha, double beta)
         {
             BerechneDrehmomente(v, alpha, beta);
@@ -28,22 +44,6 @@ namespace Windkraftanlage.Kennlinienmodell
             BerechneKraefte(v, alpha, beta);
         }
 
-        private protected override void AktualisierePunkte(double alpha, double beta)
-        {
-            base.Aktualisiere(alpha, beta);
-            AktualisiereP2P5();
-        }
-
-        private protected override Vektor2 BestimmeVerschiebung(double beta)
-        {
-            return Vektor2.Zero();
-        }
-
-        private void AktualisiereP2P5()
-        {
-            P2P5 = new Vektor2(punkte.P2, punkte.P5);
-        }
-
         private protected override void BerechneDrehmomente(double v, double alpha, double beta)
         {
             gesamtdrehmomentBauteile = BerechneGesamtdrehmomentBauteile(v, alpha, beta);
@@ -52,29 +52,28 @@ namespace Windkraftanlage.Kennlinienmodell
             MGelenk = 0.0;
         }
 
+        private double BerechneSeillaenge()
+        {
+            return P2P5.Norm();
+        }
+
+        private double BerechneSeilkraft()
+        {
+            return Seillaenge * gesamtdrehmomentBauteile / (punkte.P2.y * P2P5.x - punkte.P2.x * P2P5.y);
+        }
+
         private protected override void BerechneKraefte(double v, double alpha, double beta)
         {
             gesamtkraftBauteile = BerechneGesamtkraftBauteile(v, alpha, beta);
 
             FSeil = Seilkraft / Seillaenge * P2P5;
-            FGelenk = - (gesamtkraftBauteile + FSeil);
-        }
-
-        internal double BerechneSeillaenge()
-        {
-            return P2P5.Norm();
-        }
-
-        internal double BerechneSeilkraft()
-        {
-            return Seillaenge * gesamtdrehmomentBauteile / (punkte.P2.y * P2P5.x - punkte.P2.x * P2P5.y);
-        }
+            FGelenk = -(gesamtkraftBauteile + FSeil);
+        }  
 
        internal (double, double) BestimmeSeillaengeUndSeilkraft(double alpha, double beta)
         {
             Aktualisiere(alpha, beta);
             return (BerechneSeillaenge(), BerechneSeilkraft());
         }
-
     }
 }
