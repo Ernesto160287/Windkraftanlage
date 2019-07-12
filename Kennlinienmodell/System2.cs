@@ -65,5 +65,25 @@ namespace Windkraftanlage.Kennlinienmodell
         {
             return gesamtdrehmomentBauteile + MSchub + MSeil + MGelenk + MLager;
         }
+
+        internal override double[] GebeOptionaleKraefteAus(double v, double alpha, double beta)
+        {
+            double[] optionaleKraefte = new double[8];
+
+            optionaleKraefte[0] = FLager.Norm();
+            optionaleKraefte[1] = FSchub.Norm();
+            optionaleKraefte[2] = bauteile[0].BerechneWiderstandskraft(v, alpha, beta).Norm();
+            optionaleKraefte[3] = bauteile[0].BerechneAuftriebskraft(v, alpha, beta).Norm();
+            optionaleKraefte[4] = bauteile[1].BerechneWiderstandskraft(v, alpha, beta).Norm();
+            optionaleKraefte[5] = bauteile[1].BerechneAuftriebskraft(v, alpha, beta).Norm();
+            optionaleKraefte[6] = bauteile[2].BerechneWiderstandskraft(v, alpha, beta).Norm()
+                                  + bauteile[3].BerechneWiderstandskraft(v, alpha, beta).Norm()
+                                  + bauteile[4].BerechneWiderstandskraft(v, alpha, beta).Norm();
+            optionaleKraefte[7] = bauteile[2].BerechneAuftriebskraft(v, alpha, beta).Norm()
+                                  + bauteile[3].BerechneAuftriebskraft(v, alpha, beta).Norm()
+                                  + bauteile[4].BerechneAuftriebskraft(v, alpha, beta).Norm();
+
+            return optionaleKraefte;
+        }
     }
 }

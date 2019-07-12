@@ -6,8 +6,8 @@ namespace Windkraftanlage.Kennlinienmodell
 {
     class System1 : System
     {
-        internal double Seillaenge { get; set; } // Seillänge
-        internal double Seilkraft { get; set; }  // Seilkraft
+        internal double Seillaenge { get; private set; } // Seillänge
+        internal double Seilkraft { get; private set; }  // Seilkraft
 
         Vektor2 P2P5;  // Verbindungsvektor Steuerfahne und Trägerkonstruktion
 
@@ -71,9 +71,22 @@ namespace Windkraftanlage.Kennlinienmodell
         }  
 
        internal (double, double) BestimmeSeillaengeUndSeilkraft(double alpha, double beta)
-        {
+       {
             Aktualisiere(alpha, beta);
             return (BerechneSeillaenge(), BerechneSeilkraft());
+       }
+
+        internal override double[] GebeOptionaleKraefteAus(double v, double alpha, double beta)
+        {
+            double[] optionaleKraefte = new double[3];
+
+            optionaleKraefte[0] = FGelenk.Norm();
+            optionaleKraefte[1] = bauteile[0].BerechneWiderstandskraft(v, alpha, beta).Norm();
+            optionaleKraefte[2] = bauteile[0].BerechneAuftriebskraft(v, alpha, beta).Norm();
+
+            return optionaleKraefte;
         }
+
+
     }
 }

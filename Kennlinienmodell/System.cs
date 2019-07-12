@@ -112,5 +112,7 @@ namespace Windkraftanlage.Kennlinienmodell
             }
             return MA;
         }
+
+        internal abstract double[] GebeOptionaleKraefteAus(double v, double alpha, double beta);
     }
 }

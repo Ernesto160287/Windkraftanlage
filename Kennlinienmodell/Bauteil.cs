@@ -21,7 +21,6 @@ namespace Windkraftanlage.Kennlinienmodell
         }
 
         internal abstract void Aktualisiere(Punkte modellpunkte, double alpha, double beta);
-
         internal abstract Vektor2 BerechneWiderstandskraft(double v, double alpha, double beta);
         internal abstract Vektor2 BerechneAuftriebskraft(double v, double alpha, double beta);
         internal abstract double BerechneWiderstandsdrehmoment(Punkte punkte, double v, double alpha, double beta);

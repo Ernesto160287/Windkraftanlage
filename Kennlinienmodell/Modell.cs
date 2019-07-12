@@ -149,8 +149,8 @@ namespace Windkraftanlage.Kennlinienmodell
 
         private void SpeichereModellwerte(int i)
         {
-            (double seillaenge, double seilkraft) = system1.BestimmeSeillaengeUndSeilkraft(alpha, beta);
-            seillaenge = VerkuerzeUmSeillaengeStart(i, seillaenge);
+            double seillaenge = VerkuerzeUmSeillaengeStart(i, system1.Seillaenge);
+            double seilkraft = system1.Seilkraft;
 
             modellwerte.SpeichereAktuelleWerte(i, v, alpha, beta, seillaenge, seilkraft);
         }
@@ -165,7 +165,10 @@ namespace Windkraftanlage.Kennlinienmodell
 
         private void SpeichereOptionaleKraefte(int i)
         {
-            // TODO
+            double[] optionaleKraefteSystem1 = system1.GebeOptionaleKraefteAus(v, alpha, beta);
+            double[] optionaleKraefteSystem2 = system2.GebeOptionaleKraefteAus(v, alpha, beta);
+
+            optionaleKraefte.SpeichereAktuelleWerte(i, optionaleKraefteSystem1, optionaleKraefteSystem2);
         }
     }
 
