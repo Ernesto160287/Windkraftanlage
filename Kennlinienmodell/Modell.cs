@@ -26,7 +26,7 @@ namespace Windkraftanlage.Kennlinienmodell
         double v;
         double alpha;
         double beta;
-        double seillaengeStart;
+        double? seillaengeStart;
 
         Numerikhilfsmittel numerik;
         
@@ -60,7 +60,7 @@ namespace Windkraftanlage.Kennlinienmodell
 
         private void InitialisiereModellwerte()
         {
-            modellwerte = new Modellwerte(anzahlSchritte);
+            modellwerte = new Modellwerte();
         }
 
         private void InitialisiereNumerischeHilfsmittel()
@@ -75,7 +75,7 @@ namespace Windkraftanlage.Kennlinienmodell
         }
         private void InitialisiereOptionaleKraefte()
         {
-            optionaleKraefte = new OptionaleKraefte(anzahlSchritte);
+            optionaleKraefte = new OptionaleKraefte();
         }
 
 
@@ -90,7 +90,7 @@ namespace Windkraftanlage.Kennlinienmodell
                 try
                 {
                     alpha = BestimmeAlpha();
-                    SpeichereWerte(i);
+                    SpeichereWerte();
                 }
                 catch (NumericsFailedException)
                 {
@@ -137,38 +137,48 @@ namespace Windkraftanlage.Kennlinienmodell
             system2.FGelenk = -system1.FGelenk;
         }
 
-        private void SpeichereWerte(int i)
+        private void SpeichereWerte()
         {
-            SpeichereModellwerte(i);
+            SpeichereModellwerte();
 
             if (alleKraefte)
             {
-                SpeichereOptionaleKraefte(i);
+                SpeichereOptionaleKraefte();
             }
         }
 
-        private void SpeichereModellwerte(int i)
+        private void SpeichereModellwerte()
         {
-            double seillaenge = VerkuerzeUmSeillaengeStart(i, system1.Seillaenge);
+            double seillaenge = VerkuerzeUmSeillaengeStart(system1.Seillaenge);
             double seilkraft = system1.Seilkraft;
 
-            modellwerte.SpeichereAktuelleWerte(i, v, alpha, beta, seillaenge, seilkraft);
+            modellwerte.SpeichereAktuelleWerte(v, alpha, beta, seillaenge, seilkraft);
         }
 
-        private double VerkuerzeUmSeillaengeStart(int i, double laenge)
+        private double VerkuerzeUmSeillaengeStart(double laenge)
         {
-            if (i == 0)
+            if (!seillaengeStart.HasValue)
                 seillaengeStart = laenge;
 
-            return laenge - seillaengeStart;
+            return laenge - seillaengeStart.Value;
         }
 
-        private void SpeichereOptionaleKraefte(int i)
+        private void SpeichereOptionaleKraefte()
+        {
+            SpeichereOptionaleKraefteSystem1();
+            SpeichereOptionaleKraefteSystem2();
+        }
+
+        private void SpeichereOptionaleKraefteSystem1()
         {
             double[] optionaleKraefteSystem1 = system1.GebeOptionaleKraefteAus(v, alpha, beta);
-            double[] optionaleKraefteSystem2 = system2.GebeOptionaleKraefteAus(v, alpha, beta);
+            optionaleKraefte.SpeichereAktuelleWerteSystem1(optionaleKraefteSystem1);
+        }
 
-            optionaleKraefte.SpeichereAktuelleWerte(i, optionaleKraefteSystem1, optionaleKraefteSystem2);
+        private void SpeichereOptionaleKraefteSystem2()
+        {
+            double[] optionaleKraefteSystem2 = system2.GebeOptionaleKraefteAus(v, alpha, beta);
+            optionaleKraefte.SpeichereAktuelleWerteSystem2(optionaleKraefteSystem2);
         }
     }
 
