@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
-    internal class OptionaleKraefte
+    class OptionaleKraefte
     {
         List<double> FGelenk_Werte;
         List<double> FWS_Werte;
@@ -51,5 +50,4 @@ namespace Windkraftanlage.Kennlinienmodell
             FAT_Werte.Add(kraefteSystem2[7]);
         }
     }
-
 }

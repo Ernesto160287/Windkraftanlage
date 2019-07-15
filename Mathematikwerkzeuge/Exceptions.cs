@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Windkraftanlage
+namespace MathematikWerkzeuge
 {
-    class NumericsFailedException : Exception
+    public class NumericsFailedException : Exception
     {
         public NumericsFailedException()
         {
@@ -19,10 +15,9 @@ namespace Windkraftanlage
         public NumericsFailedException(String message, Exception innerException) : base(message, innerException)
         {
         }
-
     }
 
-    class InconsistentInputException : Exception
+    public class InconsistentInputException : Exception
     {
         public InconsistentInputException()
         {
@@ -35,10 +30,9 @@ namespace Windkraftanlage
         public InconsistentInputException(String message, Exception innerException) : base(message, innerException)
         {
         }
-
     }
 
-    class ValueOutOfRangeException : Exception
+    public class ValueOutOfRangeException : Exception
     {
         public ValueOutOfRangeException()
         {
@@ -52,5 +46,4 @@ namespace Windkraftanlage
         {
         }
     }
-
 }

@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Windkraftanlage.Mathematikwerkzeuge.Integration
+namespace MathematikWerkzeuge.Integration
 {
-    internal interface IIntegration
+    interface IIntegration
     {
         double Integriere(Func<double, double> funktion, double untereGrenze, double obereGrenze);
     }
 
-    abstract class Integration : IIntegration
+    public abstract class Integration : IIntegration
     {
-        private protected double genauigkeit;
+        protected double genauigkeit;
 
         public Integration(double genauigkeit)
         {
@@ -22,7 +18,6 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Integration
 
         public abstract double Integriere(Func<double, double> funktion, double untereGrenze, double obereGrenze);
 
-        private protected abstract bool IstApproximationErfolgreich();
-
+        protected abstract bool IstApproximationErfolgreich();
     }
 }

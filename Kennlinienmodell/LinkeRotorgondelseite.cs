@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windkraftanlage.Mathematikwerkzeuge;
-using Windkraftanlage.Mathematikwerkzeuge.Integration;
+﻿using MathematikWerkzeuge;
+using MathematikWerkzeuge.Integration;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     class LinkeRotorgondelseite : Bauteil
     {
@@ -17,8 +13,6 @@ namespace Windkraftanlage.Kennlinienmodell
 
         // Korrektursummanden
         const double KR1 = Modell.KRotor;
-
-        // Windfaktoren
 
         // Längen unter Berücksichtigung der Korrektursummanden
         double lR1;
@@ -59,7 +53,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return -punkte.P4.x * integrator.Integriere(integrand1, 0.0, Parameter.l9) - integrator.Integriere(integrand2, 0.0, Parameter.l9);
         }
 
-        private protected override void SetzeProfil()
+        protected override void SetzeProfil()
         {
             profil = l =>
             {
@@ -76,12 +70,12 @@ namespace Windkraftanlage.Kennlinienmodell
             };
         }
 
-        private double BerechneWindschattenLaenge(double y1, double y2, double K, double beta)
+        double BerechneWindschattenLaenge(double y1, double y2, double K, double beta)
         {
             return (y1 + K - y2) / Math.Sin(Punkte.Phi2(beta));
         }
 
-        private protected override double cW(double l, double alpha, double beta)
+        protected override double cW(double l, double alpha, double beta)
         {
             if (l < 0.0)
                 throw new ValueOutOfRangeException("Das Argument von cW_R liegt außerhalb des erlaubten Bereichs.");
@@ -91,7 +85,7 @@ namespace Windkraftanlage.Kennlinienmodell
                 throw new ValueOutOfRangeException("Das Argument von cW_R liegt außerhalb des erlaubten Bereichs.");
         }
 
-        private protected override double cA(double l, double alpha, double beta)
+        protected override double cA(double l, double alpha, double beta)
         {
             if (l < 0.0)
                 throw new ValueOutOfRangeException("Das Argument von cA_R liegt außerhalb des erlaubten Bereichs.");
@@ -101,12 +95,12 @@ namespace Windkraftanlage.Kennlinienmodell
                 throw new ValueOutOfRangeException("Das Argument von cA_R liegt außerhalb des erlaubten Bereichs.");
         }
 
-        private protected override double vW(double l, double v)
+        protected override double vW(double l, double v)
         {
             return GammaRotor(l) * v;
         }
 
-        private double GammaRotor(double l)
+        double GammaRotor(double l)
         {
             if (l < 0.0)
                 throw new ValueOutOfRangeException("Das Argument von GammaRotor_R liegt außerhalb des erlaubten Bereichs.");

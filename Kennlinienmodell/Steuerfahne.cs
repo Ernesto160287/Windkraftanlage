@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windkraftanlage.Mathematikwerkzeuge;
-using Windkraftanlage.Mathematikwerkzeuge.Integration;
+﻿using MathematikWerkzeuge;
+using MathematikWerkzeuge.Integration;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     class Steuerfahne : Bauteil
     {
@@ -16,16 +12,16 @@ namespace Windkraftanlage.Kennlinienmodell
         const double h = 0.95;
 
         // Korrektursummanden
-        const double K4  = Modell.KRest;
+        const double K4 = Modell.KRest;
         const double K5c = Modell.KRest;
-        const double K8  = Modell.KRest;
+        const double K8 = Modell.KRest;
         const double K11 = -Modell.KRest;
         const double KR1 = Modell.KRotor;
 
         // Windfaktoren
-        const double Gamma4  = 1.0 - 3.0 * Modell.nu;
+        const double Gamma4 = 1.0 - 3.0 * Modell.nu;
         const double Gamma5c = 1.0 - Modell.nu;
-        const double Gamma8  = 1.0 - 2.0 * Modell.nu;
+        const double Gamma8 = 1.0 - 2.0 * Modell.nu;
         const double Gamma11 = 1.0 - Modell.nu;
 
         // Längen unter Berücksichtigung der Korrektursummanden
@@ -35,7 +31,7 @@ namespace Windkraftanlage.Kennlinienmodell
         double l11;
         double lR1;
 
-        internal Steuerfahne(Integration integrator, Func<double, double> cW, Func<double,double> cA) : base(integrator, cW, cA)
+        internal Steuerfahne(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base(integrator, cW, cA)
         {
         }
 
@@ -72,7 +68,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return -integrator.Integriere(integrand, 0.0, Parameter.l1b);
         }
 
-        private protected override void SetzeProfil()
+        protected override void SetzeProfil()
         {
             profil = l =>
             {
@@ -86,13 +82,13 @@ namespace Windkraftanlage.Kennlinienmodell
                     throw new ValueOutOfRangeException("Das Argument von f_S liegt außerhalb des erlaubten Bereichs.");
             };
         }
-        
-        private double BerechneWindschattenLaenge(double y, double K, double alpha)
+
+        double BerechneWindschattenLaenge(double y, double K, double alpha)
         {
             return (y + K) / Math.Sin(alpha);
         }
- 
-        private protected override double cW(double l, double alpha, double beta)
+
+        protected override double cW(double l, double alpha, double beta)
         {
             if (l < 0.0)
                 throw new ValueOutOfRangeException("Das Argument von cW_S liegt außerhalb des erlaubten Bereichs.");
@@ -102,7 +98,7 @@ namespace Windkraftanlage.Kennlinienmodell
                 throw new ValueOutOfRangeException("Das Argument von cW_S liegt außerhalb des erlaubten Bereichs.");
         }
 
-        private protected override double cA(double l, double alpha, double beta)
+        protected override double cA(double l, double alpha, double beta)
         {
             if (l < 0.0)
                 throw new ValueOutOfRangeException("Das Argument von cA_S liegt außerhalb des erlaubten Bereichs.");
@@ -112,12 +108,12 @@ namespace Windkraftanlage.Kennlinienmodell
                 throw new ValueOutOfRangeException("Das Argument von cA_S liegt außerhalb des erlaubten Bereichs.");
         }
 
-        private protected override double vW(double l, double v)
+        protected override double vW(double l, double v)
         {
             return GammaRotor(l) * GammaRest(l) * v;
         }
 
-        private double GammaRotor(double l)
+        double GammaRotor(double l)
         {
             if (l < 0.0)
                 throw new ValueOutOfRangeException("Das Argument von GammaRotor_S liegt außerhalb des erlaubten Bereichs.");
@@ -127,7 +123,7 @@ namespace Windkraftanlage.Kennlinienmodell
                 return 1.0;
         }
 
-        private double GammaRest(double l)
+        double GammaRest(double l)
         {
             if (l < 0.0)
                 throw new ValueOutOfRangeException("Das Argument von GammaRest_S liegt außerhalb des erlaubten Bereichs.");

@@ -4,16 +4,31 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A491AFDE-26E8-410F-8399-22C1DD15696C}</ProjectGuid>
+    <ProjectGuid>{78FA3379-6D9D-4C4F-BBCA-3BF12CE9EC9A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Windkraftanlage</RootNamespace>
-    <AssemblyName>Windkraftanlage</AssemblyName>
+    <RootNamespace>Anwendung</RootNamespace>
+    <AssemblyName>Anwendung</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,7 +52,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,40 +78,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="Kennlinienmodell\Bauteil.cs" />
-    <Compile Include="Kennlinienmodell\LinkeRotorgondelseite.cs" />
-    <Compile Include="Kennlinienmodell\Modell.cs" />
-    <Compile Include="Kennlinienmodell\Modellwerte.cs" />
-    <Compile Include="Kennlinienmodell\Punkte.cs" />
-    <Compile Include="Kennlinienmodell\Numerikhilfsmittel.cs" />
-    <Compile Include="Kennlinienmodell\OptionaleKraefte.cs" />
-    <Compile Include="Kennlinienmodell\Parameter.cs" />
-    <Compile Include="Kennlinienmodell\Querfahne.cs" />
-    <Compile Include="Kennlinienmodell\Steuerfahne.cs" />
-    <Compile Include="Kennlinienmodell\System.cs" />
-    <Compile Include="Kennlinienmodell\System2.cs" />
-    <Compile Include="Kennlinienmodell\Traeger1.cs" />
-    <Compile Include="Kennlinienmodell\Traeger2.cs" />
-    <Compile Include="Kennlinienmodell\Traeger3.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mathematikwerkzeuge\Integration\Integration.cs" />
-    <Compile Include="Mathematikwerkzeuge\Integration\SimpsonRegel.cs" />
-    <Compile Include="Mathematikwerkzeuge\Interpolation\Interpolation.cs" />
-    <Compile Include="Mathematikwerkzeuge\Interpolation\KubischeInterpolation.cs" />
-    <Compile Include="Mathematikwerkzeuge\Interpolation\LineareInterpolation.cs" />
-    <Compile Include="Kennlinienmodell\System1.cs" />
-    <Compile Include="Mathematikwerkzeuge\Interpolation\Tridiagonalmatrix.cs" />
-    <Compile Include="Mathematikwerkzeuge\Nullstelle\Bisektionsverfahren.cs" />
-    <Compile Include="Mathematikwerkzeuge\Nullstelle\Nullstellenapproximation.cs" />
-    <Compile Include="Mathematikwerkzeuge\Nullstelle\NullstellenApproximationAusIntervall.cs" />
-    <Compile Include="Mathematikwerkzeuge\Nullstelle\RegulaFalsi.cs" />
-    <Compile Include="Mathematikwerkzeuge\Vektor2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -124,7 +110,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Bahnkurve\" />
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 und x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

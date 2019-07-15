@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
+namespace MathematikWerkzeuge.Interpolation
 {
-    class KubischeInterpolation : Interpolation
+    public class KubischeInterpolation : Interpolation
     {
         // Koeffizienten des Polynoms dritten Grades:
         // x -> a * x^3 + b * x^2 + c * x + d
@@ -15,7 +15,7 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
         {
             BelegeKoeffizienten();
         }
-        
+
         public override double Interpoliere(double p)
         {
             if (PunktAusserhalbWertebereich(p))
@@ -93,7 +93,7 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
 
         private double[] BelegeKoeffizientenA(double[] v)
         {
-            double[] a = new double[anzahlDaten-1];
+            double[] a = new double[anzahlDaten - 1];
 
             for (int i = 0; i < a.Length; i++)
             {
@@ -108,7 +108,7 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
 
             for (int i = 0; i < b.Length; i++)
             {
-                b[i] = 1/2 * v[i];
+                b[i] = 1 / 2 * v[i];
             }
             return b;
         }
@@ -119,7 +119,7 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
 
             for (int i = 0; i < c.Length; i++)
             {
-                c[i] = 1 / xDiff[i] * (v[i + 1] - v[i]) - 1/6 * xDiff[i] * (v[i+1] + 2 * v[i]);
+                c[i] = 1 / xDiff[i] * (v[i + 1] - v[i]) - 1 / 6 * xDiff[i] * (v[i + 1] + 2 * v[i]);
             }
             return c;
         }

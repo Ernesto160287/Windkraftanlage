@@ -1,18 +1,18 @@
-﻿using System;
-using Windkraftanlage.Mathematikwerkzeuge;
-using Windkraftanlage.Mathematikwerkzeuge.Integration;
+﻿using MathematikWerkzeuge;
+using MathematikWerkzeuge.Integration;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     abstract class Bauteil
     {
-        private protected readonly Integration integrator;
-        private protected readonly Func<double, double> cW_Basis;
-        private protected readonly Func<double, double> cA_Basis;
+        protected readonly Integration integrator;
+        protected readonly Func<double, double> cW_Basis;
+        protected readonly Func<double, double> cA_Basis;
 
-        private protected Func<double, double> profil;
+        protected Func<double, double> profil;
 
-        private protected Bauteil(Integration integrator, Func<double, double> cW_Basis, Func<double, double> cA_Basis)
+        protected Bauteil(Integration integrator, Func<double, double> cW_Basis, Func<double, double> cA_Basis)
         {
             this.integrator = integrator;
             this.cW_Basis = cW_Basis;
@@ -27,10 +27,9 @@ namespace Windkraftanlage.Kennlinienmodell
         internal abstract double BerechneAuftriebsdrehmoment(Punkte punkte, double v, double alpha, double beta);
 
 
-        private protected abstract double vW(double l, double v);
-        private protected abstract double cW(double l, double alpha, double beta);
-        private protected abstract double cA(double l, double alpha, double beta);
-        private protected abstract void SetzeProfil();
+        protected abstract double vW(double l, double v);
+        protected abstract double cW(double l, double alpha, double beta);
+        protected abstract double cA(double l, double alpha, double beta);
+        protected abstract void SetzeProfil();
     }
-
 }

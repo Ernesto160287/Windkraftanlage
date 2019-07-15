@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Windkraftanlage.Mathematikwerkzeuge.Integration
+namespace MathematikWerkzeuge.Integration
 {
-    class SimpsonRegel : Integration
+    public class SimpsonRegel : Integration
     {
         double flaecheTrapez;
         double flaecheTrapezVorher = 0.0;
@@ -66,11 +62,9 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Integration
             return integal;
         }
 
-        private protected override bool IstApproximationErfolgreich()
+        protected override bool IstApproximationErfolgreich()
         {
             return Math.Abs(flaecheSimpson - flaecheSimpsonvorher) < genauigkeit * Math.Abs(flaecheSimpsonvorher);
         }
-
-
     }
 }

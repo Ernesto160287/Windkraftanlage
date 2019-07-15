@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windkraftanlage.Mathematikwerkzeuge;
-using Windkraftanlage.Mathematikwerkzeuge.Integration;
+﻿using MathematikWerkzeuge;
+using MathematikWerkzeuge.Integration;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     class Querfahne : Bauteil
     {
@@ -16,17 +12,17 @@ namespace Windkraftanlage.Kennlinienmodell
         const double h = 0.63;
 
         // Korrektursummanden
-        const double K8  = Modell.KRest;
-        const double K9  = -Modell.KRest;
+        const double K8 = Modell.KRest;
+        const double K9 = -Modell.KRest;
         const double K11 = -Modell.KRest;
         const double KR1 = Modell.KRotor;
         const double KR2 = -Modell.KRotor;
 
         // Windfaktoren
-        const double Gamma8  = 1.0 - 2.0 * Modell.nu;
-        const double Gamma9  = 1.0 - 2.0 * Modell.nu;
+        const double Gamma8 = 1.0 - 2.0 * Modell.nu;
+        const double Gamma9 = 1.0 - 2.0 * Modell.nu;
         const double Gamma11 = 1.0 - 3.0 * Modell.nu;
-        
+
         // Längen unter Berücksichtigung der Korrektursummanden
         double l8;
         double l9;
@@ -40,8 +36,8 @@ namespace Windkraftanlage.Kennlinienmodell
 
         internal override void Aktualisiere(Punkte punkte, double alpha, double beta)
         {
-            l8  = BerechneWindschattenLaenge(punkte.P8.y, punkte.P12.y, K8, beta);
-            l9  = BerechneWindschattenLaenge(punkte.P9.y, punkte.P12.y, K9, beta);
+            l8 = BerechneWindschattenLaenge(punkte.P8.y, punkte.P12.y, K8, beta);
+            l9 = BerechneWindschattenLaenge(punkte.P9.y, punkte.P12.y, K9, beta);
             l11 = BerechneWindschattenLaenge(punkte.P11.y, punkte.P12.y, K11, beta);
             lR1 = BerechneWindschattenLaenge(punkte.PR1.y, punkte.P12.y, KR1, beta);
             lR2 = BerechneWindschattenLaenge(punkte.PR2.y, punkte.P12.y, KR2, beta);
@@ -73,7 +69,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return punkte.P12.x * integrator.Integriere(integrand1, -Parameter.l4, Parameter.l6b) + integrator.Integriere(integrand2, -Parameter.l4, Parameter.l6b);
         }
 
-        private protected override void SetzeProfil()
+        protected override void SetzeProfil()
         {
             profil = l =>
             {
@@ -88,12 +84,12 @@ namespace Windkraftanlage.Kennlinienmodell
             };
         }
 
-        private double BerechneWindschattenLaenge(double y1, double y2, double K, double beta)
+        double BerechneWindschattenLaenge(double y1, double y2, double K, double beta)
         {
             return (y1 + K - y2) / Math.Sin(Punkte.Phi3(beta));
         }
 
-        private protected override double cW(double l, double alpha, double beta)
+        protected override double cW(double l, double alpha, double beta)
         {
             if (l < -Parameter.l4)
                 throw new ValueOutOfRangeException("Das Argument von cW_Q liegt außerhalb des erlaubten Bereichs.");
@@ -103,7 +99,7 @@ namespace Windkraftanlage.Kennlinienmodell
                 throw new ValueOutOfRangeException("Das Argument von cW_Q liegt außerhalb des erlaubten Bereichs.");
         }
 
-        private protected override double cA(double l, double alpha, double beta)
+        protected override double cA(double l, double alpha, double beta)
         {
             if (l < -Parameter.l4)
                 throw new ValueOutOfRangeException("Das Argument von cA_Q liegt außerhalb des erlaubten Bereichs.");
@@ -113,12 +109,12 @@ namespace Windkraftanlage.Kennlinienmodell
                 throw new ValueOutOfRangeException("Das Argument von cA_Q liegt außerhalb des erlaubten Bereichs.");
         }
 
-        private protected override double vW(double l, double v)
+        protected override double vW(double l, double v)
         {
             return GammaRotor(l) * GammaRest(l) * v;
         }
 
-        private double GammaRotor(double l)
+        double GammaRotor(double l)
         {
             if (l < -Parameter.l4)
                 throw new ValueOutOfRangeException("Das Argument von GammaRotor_Q liegt außerhalb des erlaubten Bereichs.");
@@ -130,7 +126,7 @@ namespace Windkraftanlage.Kennlinienmodell
                 return 1.0;
         }
 
-        private double GammaRest(double l)
+        double GammaRest(double l)
         {
             if (l < -Parameter.l4)
                 throw new ValueOutOfRangeException("Das Argument von GammaRest_Q liegt außerhalb des erlaubten Bereichs.");

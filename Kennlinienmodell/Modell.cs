@@ -1,8 +1,9 @@
 ﻿using System;
+using MathematikWerkzeuge;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
-    class Modell
+    public class Modell
     {
         // charakteristische Verzögerung des Windes hinter einem Hindernis (für GammaRest)
         internal const double nu = 0.15;
@@ -29,14 +30,14 @@ namespace Windkraftanlage.Kennlinienmodell
         double? seillaengeStart;
 
         Numerikhilfsmittel numerik;
-        
+
         System1 system1;
         System2 system2;
 
         Modellwerte modellwerte;
         OptionaleKraefte optionaleKraefte;
 
-        internal Modell(double vmin, double vmax, double vSchritt, double genauigkeit, bool alleKraefte = false)
+        public Modell(double vmin, double vmax, double vSchritt, double genauigkeit, bool alleKraefte = false)
         {
             v = vmin;
             this.vSchritt = vSchritt;
@@ -46,7 +47,7 @@ namespace Windkraftanlage.Kennlinienmodell
             this.alleKraefte = alleKraefte;
         }
 
-        internal void Initialisiere()
+        public void Initialisiere()
         {
             InitialisiereModellwerte();
             InitialisiereNumerischeHilfsmittel();
@@ -58,28 +59,27 @@ namespace Windkraftanlage.Kennlinienmodell
             }
         }
 
-        private void InitialisiereModellwerte()
+        void InitialisiereModellwerte()
         {
             modellwerte = new Modellwerte();
         }
 
-        private void InitialisiereNumerischeHilfsmittel()
+        void InitialisiereNumerischeHilfsmittel()
         {
             numerik = new Numerikhilfsmittel(genauigkeit);
         }
 
-        private void InitialisiereSysteme()
+        void InitialisiereSysteme()
         {
             system1 = new System1(numerik.integrator, numerik.cW, numerik.cA);
             system2 = new System2(numerik.integrator, numerik.cW, numerik.cA);
         }
-        private void InitialisiereOptionaleKraefte()
+        void InitialisiereOptionaleKraefte()
         {
             optionaleKraefte = new OptionaleKraefte();
         }
 
-
-        internal void Verarbeite()
+        public void Verarbeite()
         {
             for (int i = 0; i < anzahlSchritte; i++)
             {
@@ -98,15 +98,15 @@ namespace Windkraftanlage.Kennlinienmodell
                 }
             }
         }
-        
-        private void AktualisiereGeschwindigkeit()
+
+        void AktualisiereGeschwindigkeit()
         {
             v += vSchritt;
         }
 
-        private double BestimmteBeta()
+        double BestimmteBeta()
         {
-            double q = (4 * Parameter.PG) 
+            double q = (4 * Parameter.PG)
                         / (3 * Parameter.eta * Parameter.rhoL * Math.Pow(v, 3) * Math.PI * Math.Pow(Parameter.r, 2));
 
             if (q <= 1)
@@ -115,14 +115,14 @@ namespace Windkraftanlage.Kennlinienmodell
                 return Math.PI / 2;
         }
 
-        private double BestimmeAlpha()
+        double BestimmeAlpha()
         {
             Func<double, double> gesamtdrehmoment = alphaVar => BerechneGesamtdrehmoment(alphaVar);
 
             return numerik.approxNst.ErmittleNullstelle(gesamtdrehmoment, genauigkeit, Math.PI / 2 - genauigkeit);
         }
 
-        private double BerechneGesamtdrehmoment(double alphaVar)
+        double BerechneGesamtdrehmoment(double alphaVar)
         {
             system1.Loese(v, alphaVar, beta);
             UebertrageKraefteVonSystem1AufSystem2();
@@ -131,13 +131,13 @@ namespace Windkraftanlage.Kennlinienmodell
             return system2.BerechneGesamtdrehmoment();
         }
 
-        private void UebertrageKraefteVonSystem1AufSystem2()
+        void UebertrageKraefteVonSystem1AufSystem2()
         {
             system2.FSeil = -system1.FSeil;
             system2.FGelenk = -system1.FGelenk;
         }
 
-        private void SpeichereWerte()
+        void SpeichereWerte()
         {
             SpeichereModellwerte();
 
@@ -147,7 +147,7 @@ namespace Windkraftanlage.Kennlinienmodell
             }
         }
 
-        private void SpeichereModellwerte()
+        void SpeichereModellwerte()
         {
             double seillaenge = VerkuerzeUmSeillaengeStart(system1.Seillaenge);
             double seilkraft = system1.Seilkraft;
@@ -155,7 +155,7 @@ namespace Windkraftanlage.Kennlinienmodell
             modellwerte.SpeichereAktuelleWerte(v, alpha, beta, seillaenge, seilkraft);
         }
 
-        private double VerkuerzeUmSeillaengeStart(double laenge)
+        double VerkuerzeUmSeillaengeStart(double laenge)
         {
             if (!seillaengeStart.HasValue)
                 seillaengeStart = laenge;
@@ -163,23 +163,22 @@ namespace Windkraftanlage.Kennlinienmodell
             return laenge - seillaengeStart.Value;
         }
 
-        private void SpeichereOptionaleKraefte()
+        void SpeichereOptionaleKraefte()
         {
             SpeichereOptionaleKraefteSystem1();
             SpeichereOptionaleKraefteSystem2();
         }
 
-        private void SpeichereOptionaleKraefteSystem1()
+        void SpeichereOptionaleKraefteSystem1()
         {
             double[] optionaleKraefteSystem1 = system1.GebeOptionaleKraefteAus(v, alpha, beta);
             optionaleKraefte.SpeichereAktuelleWerteSystem1(optionaleKraefteSystem1);
         }
 
-        private void SpeichereOptionaleKraefteSystem2()
+        void SpeichereOptionaleKraefteSystem2()
         {
             double[] optionaleKraefteSystem2 = system2.GebeOptionaleKraefteAus(v, alpha, beta);
             optionaleKraefte.SpeichereAktuelleWerteSystem2(optionaleKraefteSystem2);
         }
     }
-
 }

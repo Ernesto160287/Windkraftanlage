@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Windkraftanlage.Mathematikwerkzeuge.Nullstelle
+namespace MathematikWerkzeuge.Nullstelle
 {
-    class RegulaFalsi : NullstellenApproximationAusIntervall
+    public class RegulaFalsi : NullstellenApproximationAusIntervall
     {
         double xAktuell;
         double yAktuell;
@@ -50,7 +46,7 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Nullstelle
             yAktuell = funktion(xAktuell);
         }
 
-        private protected override bool IstApproximationErfolgreich()
+        protected override bool IstApproximationErfolgreich()
         {
             return (Math.Abs(yAktuell) <= genauigkeit);
         }

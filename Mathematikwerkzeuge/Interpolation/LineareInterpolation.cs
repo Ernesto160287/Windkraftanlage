@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
+﻿namespace MathematikWerkzeuge.Interpolation
 {
-    class LineareInterpolation : Interpolation
+    public class LineareInterpolation : Interpolation
     {
         public LineareInterpolation(double[] x, double[] y, bool sortierteDaten = true) : base(x, y, sortierteDaten)
         {
         }
-
 
         public override double Interpoliere(double p)
         {
@@ -27,8 +20,7 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
             int i = IndexFuerXwertVorPunkt(p);
             // -> x[i] < p <= x[i + 1]
 
-            return y[i] + (p - x[i]) * (y[i+1] - y[i]) / xDiff[i];
-
+            return y[i] + (p - x[i]) * (y[i + 1] - y[i]) / xDiff[i];
         }
     }
 }

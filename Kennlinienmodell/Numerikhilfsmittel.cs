@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windkraftanlage.Mathematikwerkzeuge.Integration;
-using Windkraftanlage.Mathematikwerkzeuge.Interpolation;
-using Windkraftanlage.Mathematikwerkzeuge.Nullstelle;
+﻿using MathematikWerkzeuge.Integration;
+using MathematikWerkzeuge.Interpolation;
+using MathematikWerkzeuge.Nullstelle;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     class Numerikhilfsmittel
     {
@@ -22,12 +18,11 @@ namespace Windkraftanlage.Kennlinienmodell
         readonly Interpolation cAFunktion;
         internal Func<double, double> cA;
 
-        public Numerikhilfsmittel()
+        internal Numerikhilfsmittel()
         {
         }
 
-
-        public Numerikhilfsmittel(double genauigkeit)
+        internal Numerikhilfsmittel(double genauigkeit)
         {
             this.genauigkeit = genauigkeit;
 
@@ -42,7 +37,7 @@ namespace Windkraftanlage.Kennlinienmodell
             cA = InitialisiereCA();
         }
 
-        private Func<double, double> InitialisiereCW()
+        Func<double, double> InitialisiereCW()
         {
             return t =>
             {
@@ -53,7 +48,7 @@ namespace Windkraftanlage.Kennlinienmodell
             };
         }
 
-        private Func<double, double> InitialisiereCA()
+        Func<double, double> InitialisiereCA()
         {
             return t =>
             {
@@ -63,7 +58,5 @@ namespace Windkraftanlage.Kennlinienmodell
                     return -cAFunktion.Interpoliere(Math.PI - t);
             };
         }
-
-
     }
 }

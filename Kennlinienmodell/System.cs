@@ -1,29 +1,25 @@
-﻿using System;
-using Windkraftanlage.Mathematikwerkzeuge;
+﻿using MathematikWerkzeuge;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     abstract class System
     {
-        private protected Punkte punkte;
-        private protected Vektor2 verschiebungUrsprung;
+        protected Punkte punkte;
+        protected Vektor2 verschiebungUrsprung;
 
-        private protected Func<double, double> cW;
-        private protected Func<double, double> cA;
+        protected Func<double, double> cW;
+        protected Func<double, double> cA;
 
-        private protected Vektor2 gesamtkraftBauteile;
-        private protected double gesamtdrehmomentBauteile;
+        protected Vektor2 gesamtkraftBauteile;
+        protected double gesamtdrehmomentBauteile;
 
         internal Vektor2 FGelenk { get; set; }   // Gelenkraft
-        private protected double MSeil = 0.0;    // Seildrehmoment
+        protected double MSeil = 0.0;    // Seildrehmoment
         internal Vektor2 FSeil { get; set; }   // Seilkraft
-        private protected double MGelenk;      // Gelenkdrehmoment
+        protected double MGelenk;      // Gelenkdrehmoment
 
-        private protected Bauteil[] bauteile;
-
-        private protected System()
-        {
-        }
+        protected Bauteil[] bauteile;
 
         internal void Loese(double v, double alpha, double beta)
         {
@@ -31,40 +27,40 @@ namespace Windkraftanlage.Kennlinienmodell
             WerteAus(v, alpha, beta);
         }
 
-        private protected void Aktualisiere(double alpha, double beta)
+        protected void Aktualisiere(double alpha, double beta)
         {
             AktualisierePunkte(alpha, beta);
             AktualisiereBauteile(punkte, alpha, beta);
         }
 
-        private protected virtual void AktualisierePunkte(double alpha, double beta)
+        protected virtual void AktualisierePunkte(double alpha, double beta)
         {
             verschiebungUrsprung = BestimmeVerschiebung(beta);
             punkte.Aktualisiere(alpha, beta, verschiebungUrsprung);
         }
 
-        private protected abstract Vektor2 BestimmeVerschiebung(double beta);
+        protected abstract Vektor2 BestimmeVerschiebung(double beta);
 
-        private protected void AktualisiereBauteile(Punkte punkte, double alpha, double beta)
+        protected void AktualisiereBauteile(Punkte punkte, double alpha, double beta)
         {
             foreach (Bauteil bauteil in bauteile)
             {
                 bauteil.Aktualisiere(punkte, alpha, beta);
             }
         }
-        
+
         internal abstract void WerteAus(double v, double alpha, double beta);
 
-        private protected abstract void BerechneKraefte(double v, double alpha, double beta);
-        private protected abstract void BerechneDrehmomente(double v, double alpha, double beta);
+        protected abstract void BerechneKraefte(double v, double alpha, double beta);
+        protected abstract void BerechneDrehmomente(double v, double alpha, double beta);
 
 
-        private protected Vektor2 BerechneGesamtkraftBauteile(double v, double alpha, double beta)
+        protected Vektor2 BerechneGesamtkraftBauteile(double v, double alpha, double beta)
         {
             return BerechneWiderstandskraftBauteile(v, alpha, beta) + BerechneAuftriebskraftBauteile(v, alpha, beta);
         }
 
-        private protected Vektor2 BerechneWiderstandskraftBauteile(double v, double alpha, double beta)
+        protected Vektor2 BerechneWiderstandskraftBauteile(double v, double alpha, double beta)
         {
             Vektor2 FW = Vektor2.Zero();
 
@@ -75,7 +71,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return FW;
         }
 
-        private protected Vektor2 BerechneAuftriebskraftBauteile(double v, double alpha, double beta)
+        protected Vektor2 BerechneAuftriebskraftBauteile(double v, double alpha, double beta)
         {
             Vektor2 FA = Vektor2.Zero();
 
@@ -86,12 +82,12 @@ namespace Windkraftanlage.Kennlinienmodell
             return FA;
         }
 
-        private protected double BerechneGesamtdrehmomentBauteile(double v, double alpha, double beta)
+        protected double BerechneGesamtdrehmomentBauteile(double v, double alpha, double beta)
         {
             return BerechneWiderstandsdrehmomentBauteile(v, alpha, beta) + BerechneAuftriebsdrehmomentBauteile(v, alpha, beta);
         }
 
-         private protected double BerechneWiderstandsdrehmomentBauteile(double v, double alpha, double beta)
+        protected double BerechneWiderstandsdrehmomentBauteile(double v, double alpha, double beta)
         {
             double MW = 0.0;
 
@@ -102,7 +98,7 @@ namespace Windkraftanlage.Kennlinienmodell
             return MW;
         }
 
-        private protected double BerechneAuftriebsdrehmomentBauteile(double v, double alpha, double beta)
+        protected double BerechneAuftriebsdrehmomentBauteile(double v, double alpha, double beta)
         {
             double MA = 0.0;
 

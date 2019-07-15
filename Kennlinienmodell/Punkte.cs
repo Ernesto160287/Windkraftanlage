@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windkraftanlage.Mathematikwerkzeuge;
+﻿using MathematikWerkzeuge;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     class Punkte
     {
@@ -107,6 +103,5 @@ namespace Windkraftanlage.Kennlinienmodell
         {
             return Math.PI / 2 - angle + 0.001;
         }
-
     }
 }

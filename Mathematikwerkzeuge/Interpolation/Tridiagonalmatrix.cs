@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-
-namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
+namespace MathematikWerkzeuge.Interpolation
 {
     sealed class Tridiagonalmatrix
     {
-        internal double[,] Matrix { get;  set; }
+        internal double[,] Matrix { get; set; }
         internal int Dimension { get; }
 
         public Tridiagonalmatrix(int dimension)
@@ -107,6 +102,5 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
         {
             return i == (j - 1);
         }
-
     }
 }

@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
+namespace MathematikWerkzeuge.Interpolation
 {
-    internal interface IInterpolation
+    interface IInterpolation
     {
         double Interpoliere(double p);
     }
 
-    abstract class Interpolation : IInterpolation
+    public abstract class Interpolation : IInterpolation
     {
-        private protected double[] x;
-        private protected double[] y;
-        private protected double[] xDiff;  // Abstand zwischen zwei aufeinanderfolgenden x-Werten
-        private protected int anzahlDaten;
+        protected double[] x;
+        protected double[] y;
+        protected double[] xDiff;  // Abstand zwischen zwei aufeinanderfolgenden x-Werten
+        protected int anzahlDaten;
 
         public Interpolation(double[] x, double[] y, bool sortierteDaten = true)
         {
@@ -68,22 +65,22 @@ namespace Windkraftanlage.Mathematikwerkzeuge.Interpolation
             }
         }
 
-        private protected bool PunktAusserhalbWertebereich(double p)
+        protected bool PunktAusserhalbWertebereich(double p)
         {
             return ((p < x[0]) || (p > x[anzahlDaten - 1]));
         }
 
-        private protected bool PunktAufLinkemRand(double p)
+        protected bool PunktAufLinkemRand(double p)
         {
             return (p == x[0]);
         }
 
-        private protected bool PunktAufRechtemRand(double p)
+        protected bool PunktAufRechtemRand(double p)
         {
             return (p == x[anzahlDaten - 1]);
         }
 
-        private protected int IndexFuerXwertVorPunkt(double p)
+        protected int IndexFuerXwertVorPunkt(double p)
         {
             double vorherigerXwert = x.Last(s => s < p);
             return Array.IndexOf(x, vorherigerXwert);

@@ -1,8 +1,8 @@
-﻿using System;
-using Windkraftanlage.Mathematikwerkzeuge;
-using Windkraftanlage.Mathematikwerkzeuge.Integration;
+﻿using MathematikWerkzeuge;
+using MathematikWerkzeuge.Integration;
+using System;
 
-namespace Windkraftanlage.Kennlinienmodell
+namespace Kennlinienmodell
 {
     class System2 : System
     {
@@ -22,7 +22,7 @@ namespace Windkraftanlage.Kennlinienmodell
             bauteile[4] = new Traeger3(integrator, cW, cA);
         }
 
-        private protected override Vektor2 BestimmeVerschiebung(double beta)
+        protected override Vektor2 BestimmeVerschiebung(double beta)
         {
             Vektor2 verschiebung = new Vektor2();
             verschiebungUrsprung.x = -Parameter.l3 * Math.Cos(Punkte.Phi2(beta));
@@ -37,7 +37,7 @@ namespace Windkraftanlage.Kennlinienmodell
             BerechneDrehmomente(v, alpha, beta);
         }
 
-        private protected override void BerechneKraefte(double v, double alpha, double beta)
+        protected override void BerechneKraefte(double v, double alpha, double beta)
         {
             gesamtkraftBauteile = BerechneGesamtkraftBauteile(v, alpha, beta);
 
@@ -49,7 +49,7 @@ namespace Windkraftanlage.Kennlinienmodell
             FLager = -(gesamtkraftBauteile + FSeil + FGelenk + FLager);
         }
 
-        private protected override void BerechneDrehmomente(double v, double alpha, double beta)
+        protected override void BerechneDrehmomente(double v, double alpha, double beta)
         {
             gesamtdrehmomentBauteile = BerechneGesamtdrehmomentBauteile(v, alpha, beta);
 
