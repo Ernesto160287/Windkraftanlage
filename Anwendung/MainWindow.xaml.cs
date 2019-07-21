@@ -11,5 +11,16 @@ namespace Anwendung
         {
             InitializeComponent();
         }
+
+        private void ButtonKennlinienmodell_Click(object sender, RoutedEventArgs e)
+        {
+            KennlinienmodellWindow kennlinienmodellWindow = new KennlinienmodellWindow();
+            kennlinienmodellWindow.Show();
+        }
+
+        private void ButtonBahnkurve_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Simulationen zur Bahnkurve sind noch nicht implementiert");
+        }
     }
 }

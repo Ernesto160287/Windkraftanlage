@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anwendung"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Windkraftanlage" Height="414" Width="640">
     <Grid>
-        
+        <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="441" Text="Sturmsicherung einer Windkraftanlage"/>
+        <Button x:Name="ButtonKennlinienmodell" Content="Kennlinienmodell" HorizontalAlignment="Left" Height="30" Margin="482,242,0,0" VerticalAlignment="Top" Width="120" Click="ButtonKennlinienmodell_Click"/>
+        <Button x:Name="ButtonBahnkurve" Content="Bahnkurve" HorizontalAlignment="Left" Height="30" Margin="482,302,0,0" VerticalAlignment="Top" Width="120" Click="ButtonBahnkurve_Click"/>
+        <Image Margin="30,80,190,24" Source="Titelbild.PNG" Stretch="Fill"/>
+        <Image Margin="502,44,44,285" Source="LogoSpaichingen.PNG" Stretch="Fill" RenderTransformOrigin="1.4,0.395"/>
+        <Image Margin="496,112,44,179" Source="LogoJugendForscht.jpg" Stretch="Fill"/>
     </Grid>
 </Window>
