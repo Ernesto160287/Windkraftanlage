@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anwendung"
         mc:Ignorable="d"
-        Title="Kennlinienmodell" Height="450" Width="800">
+        Title="Kennlinienmodell" Height="450" Width="800" Closing="KennlinienmodellWindow_Closing">
     <Grid>
-        
+        <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="207" Text="Kennlinienmodell"/>
+        <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,80,0,0" TextWrapping="Wrap" FontSize="20"  VerticalAlignment="Top" Width="207" Text="Simulationsparameter"/>
+        <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,110,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Width="235" Text="Numerische Genauigkeit"/>
+        <Slider x:Name="NumerischeGenauigkeit" HorizontalAlignment="Left" Height="36" Margin="265,110,0,0" VerticalAlignment="Top" Width="240" Minimum="0.0" Maximum="6.0" AutoToolTipPrecision="2" AutoToolTipPlacement="BottomRight"/>
+        <Image Margin="566,10,10,179" Source="Kennlinienmodell.PNG" Stretch="Fill"/>
+        <Button x:Name="ButtonStarteBerechnung" Content="Starte Simulation!" HorizontalAlignment="Left" Margin="130,285,0,0" VerticalAlignment="Top" Width="115" Click="ButtonStarteBerechnung_Click"/>
     </Grid>
 </Window>

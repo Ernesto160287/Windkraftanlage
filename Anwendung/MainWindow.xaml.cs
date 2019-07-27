@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 
 namespace Anwendung
 {
@@ -20,7 +21,23 @@ namespace Anwendung
 
         private void ButtonBahnkurve_Click(object sender, RoutedEventArgs e)
         {
+            //TODO
             MessageBox.Show("Simulationen zur Bahnkurve sind noch nicht implementiert");
+        }
+
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            switch (MessageBox.Show("Möchten Sie die Windkraftanlage-Simulationen wirklich beenden?", "Windkraftanlage", MessageBoxButton.YesNo))
+            {
+                case MessageBoxResult.Yes:
+                    break;
+                case MessageBoxResult.No:
+                    e.Cancel = true;
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

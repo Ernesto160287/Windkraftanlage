@@ -1,33 +1,71 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Anwendung
 {
     /// <summary>
     /// Interaktionslogik für KennlinienmodellWindow.xaml
     /// </summary>
+    /// 
+
+    public class KennlinienberechnungArgs
+    {
+        internal double Genauigkeit { get; set; }
+    }
+
+  
     public partial class KennlinienmodellWindow : Window
     {
+        internal event EventHandler<KennlinienberechnungArgs> KennlinienberechnungAngefordert;
+
         public KennlinienmodellWindow()
         {
             InitializeComponent();
-            Closed += Schliessen;
+            KennlinienberechnungAngefordert += StarteBerechnung;
         }
 
-        private void Schliessen(object sender, EventArgs e)
+        private void ButtonStarteBerechnung_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: MainWindow wieder in den Vordergrund
+            var eventHandler = KennlinienberechnungAngefordert;
+
+            if (eventHandler != null)
+            {
+                KennlinienberechnungArgs args = SammleKennlinienberechnungArgumente();
+                eventHandler(this, args);
+            }
+        }
+
+        private KennlinienberechnungArgs SammleKennlinienberechnungArgumente()
+        {
+            KennlinienberechnungArgs args = new KennlinienberechnungArgs();
+
+            args.Genauigkeit = Math.Round(NumerischeGenauigkeit.Value, 2);
+
+            return args;
+        }
+
+        private void KennlinienmodellWindow_Closing(object sender, CancelEventArgs e)
+        {
+            switch (MessageBox.Show("Möchten Sie die Daten vor dem Schließen speichern?", "Kennlinienmodell", MessageBoxButton.YesNoCancel))
+            {
+                case MessageBoxResult.Yes:
+                    //TODO
+                    MessageBox.Show("Speichervorgang ist noch nicht implementiert");
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void StarteBerechnung(object sender, KennlinienberechnungArgs args)
+        {
+            Console.WriteLine(args.Genauigkeit);
         }
     }
 }

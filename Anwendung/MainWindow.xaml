@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anwendung"
         mc:Ignorable="d"
-        Title="Windkraftanlage" Height="414" Width="640">
+        Title="Windkraftanlage" Height="414" Width="640" Closing="MainWindow_Closing">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="441" Text="Sturmsicherung einer Windkraftanlage"/>
         <Button x:Name="ButtonKennlinienmodell" Content="Kennlinienmodell" HorizontalAlignment="Left" Height="30" Margin="482,242,0,0" VerticalAlignment="Top" Width="120" Click="ButtonKennlinienmodell_Click"/>

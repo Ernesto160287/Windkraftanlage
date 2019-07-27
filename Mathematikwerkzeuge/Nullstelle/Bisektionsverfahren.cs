@@ -50,7 +50,7 @@ namespace MathematikWerkzeuge.Nullstelle
             yAktuell = funktion(xAktuell);
         }
 
-        private protected override bool IstApproximationErfolgreich()
+        protected override bool IstApproximationErfolgreich()
         {
             return (Math.Abs(intervallbreite) < genauigkeit || yAktuell == 0.0);
         }
