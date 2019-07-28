@@ -7,14 +7,7 @@ namespace Anwendung
     /// <summary>
     /// Interaktionslogik für KennlinienmodellWindow.xaml
     /// </summary>
-    /// 
-
-    public class KennlinienberechnungArgs
-    {
-        internal double Genauigkeit { get; set; }
-    }
-
-  
+    ///  
     public partial class KennlinienmodellWindow : Window
     {
         internal event EventHandler<KennlinienberechnungArgs> KennlinienberechnungAngefordert;
@@ -25,22 +18,53 @@ namespace Anwendung
             KennlinienberechnungAngefordert += StarteBerechnung;
         }
 
+        private void StarteBerechnung(object sender, KennlinienberechnungArgs args)
+        {
+            Console.WriteLine("vmin = " + args.Startgeschwindigkeit);
+            Console.WriteLine("vmax = " + args.Endgeschwindigkeit);
+            Console.WriteLine("anzahlSchritte = " + args.AnzahlPunkte);
+            Console.WriteLine("--> vSchritt = " + ((args.Endgeschwindigkeit - args.Startgeschwindigkeit) / args.AnzahlPunkte));
+            Console.WriteLine("genauigkeit = " + args.Genauigkeit);
+            Console.WriteLine("alleKraefte = " + args.AlleKraefte);
+        }
+
         private void ButtonStarteBerechnung_Click(object sender, RoutedEventArgs e)
         {
             var eventHandler = KennlinienberechnungAngefordert;
 
             if (eventHandler != null)
             {
-                KennlinienberechnungArgs args = SammleKennlinienberechnungArgumente();
-                eventHandler(this, args);
+                try
+                {
+                    KennlinienberechnungArgs args = BelegeKennlinienberechnungArgumente();
+                    args.PruefeKonsistenz();
+                    eventHandler(this, args);
+                }
+                catch (FormatException)
+                {
+                }
+                catch (InconsistentInputException)
+                {
+                }
             }
         }
 
-        private KennlinienberechnungArgs SammleKennlinienberechnungArgumente()
+        private KennlinienberechnungArgs BelegeKennlinienberechnungArgumente()
         {
             KennlinienberechnungArgs args = new KennlinienberechnungArgs();
 
-            args.Genauigkeit = Math.Round(NumerischeGenauigkeit.Value, 2);
+            try
+            {
+                args.BelegeGenauigkeit(Genauigkeit.Value);
+                args.BelegeStartgeschwindigkeit(Startgeschwindigkeit.Text);
+                args.BelegeEndgeschwindigkeit(Endgeschwindigkeit.Text);
+                args.BelegeAnzahlPunkte(AnzahlPunkte.Text);
+                args.BelegeAlleKraefte(AlleKraefte.IsChecked.Value);
+            }
+            catch (FormatException)
+            {
+                throw;
+            }
 
             return args;
         }
@@ -61,11 +85,6 @@ namespace Anwendung
                 default:
                     break;
             }
-        }
-
-        private void StarteBerechnung(object sender, KennlinienberechnungArgs args)
-        {
-            Console.WriteLine(args.Genauigkeit);
         }
     }
 }

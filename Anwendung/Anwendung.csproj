@@ -84,10 +84,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="KennlinienberechnungArgs.cs" />
     <Compile Include="KennlinienmodellWindow.xaml.cs">
       <DependentUpon>KennlinienmodellWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LogarithmicSlider.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

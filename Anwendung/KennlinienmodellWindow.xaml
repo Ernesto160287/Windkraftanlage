@@ -7,11 +7,21 @@
         mc:Ignorable="d"
         Title="Kennlinienmodell" Height="450" Width="800" Closing="KennlinienmodellWindow_Closing">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="207" Text="Kennlinienmodell"/>
-        <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,80,0,0" TextWrapping="Wrap" FontSize="20"  VerticalAlignment="Top" Width="207" Text="Simulationsparameter"/>
-        <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,110,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Width="235" Text="Numerische Genauigkeit"/>
-        <Slider x:Name="NumerischeGenauigkeit" HorizontalAlignment="Left" Height="36" Margin="265,110,0,0" VerticalAlignment="Top" Width="240" Minimum="0.0" Maximum="6.0" AutoToolTipPrecision="2" AutoToolTipPlacement="BottomRight"/>
-        <Image Margin="566,10,10,179" Source="Kennlinienmodell.PNG" Stretch="Fill"/>
-        <Button x:Name="ButtonStarteBerechnung" Content="Starte Simulation!" HorizontalAlignment="Left" Margin="130,285,0,0" VerticalAlignment="Top" Width="115" Click="ButtonStarteBerechnung_Click"/>
-    </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="207" Text="Kennlinienmodell"/>
+        <TextBlock HorizontalAlignment="Left" Margin="30,80,0,0" TextWrapping="Wrap" FontSize="20"  VerticalAlignment="Top" Text="Simulationsparameter"/>
+        <TextBlock HorizontalAlignment="Left" Margin="30,130,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Numerische Genauigkeit"/>
+        <TextBlock HorizontalAlignment="Left" Margin="280,148,0,0" TextWrapping="Wrap" Text="1e-2" VerticalAlignment="Top" RenderTransformOrigin="-0.403,0.604"/>
+        <TextBlock HorizontalAlignment="Left" Margin="368,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="1e-"/><Run Text="4"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="456,148,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="1e-"/><Run Text="6"/></TextBlock>
+        <ScrollBar x:Name="Genauigkeit" Margin="280,126,0,0" Orientation="Horizontal" Minimum="2" Maximum="6" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" />
+        <TextBlock HorizontalAlignment="Left" Margin="30,180,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Startwindgeschwindigkeit (m/s)"/>
+        <TextBox x:Name="Startgeschwindigkeit" HorizontalAlignment="Left" Margin="280,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+        <TextBlock HorizontalAlignment="Left" Margin="30,230,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Endwindgeschwindigkeit (m/s)"/>
+        <TextBox x:Name="Endgeschwindigkeit" HorizontalAlignment="Left" Margin="280,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+        <TextBlock HorizontalAlignment="Left" Margin="30,280,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Anzahl Simulationspunkte"/>
+        <TextBox x:Name="AnzahlPunkte" HorizontalAlignment="Left" Margin="280,283,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+        <TextBlock HorizontalAlignment="Left" Margin="30,330,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Sämtliche Kräfte berechnen"/>
+        <CheckBox x:Name="AlleKraefte" HorizontalAlignment="Left" Margin="280,332,0,0" VerticalAlignment="Top"/>
+        <Image Margin="566,0,0,179" Source="Kennlinienmodell.PNG" Stretch="Fill" Height="230" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="216"/>
+        <Button x:Name="ButtonStarteBerechnung" Content="Starte Simulation!" HorizontalAlignment="Left" Margin="594,289,0,0" VerticalAlignment="Top" Width="115" Click="ButtonStarteBerechnung_Click"/>    </Grid>
 </Window>

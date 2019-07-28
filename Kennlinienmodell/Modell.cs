@@ -37,11 +37,11 @@ namespace Kennlinienmodell
         Modellwerte modellwerte;
         OptionaleKraefte optionaleKraefte;
 
-        public Modell(double vmin, double vmax, double vSchritt, double genauigkeit, bool alleKraefte = false)
+        public Modell(double vmin, double vmax, int anzahlSchritte, double genauigkeit, bool alleKraefte = false)
         {
             v = vmin;
-            this.vSchritt = vSchritt;
-            anzahlSchritte = (int)Math.Ceiling((vmax - vmin) / vSchritt + 1);
+            this.anzahlSchritte = anzahlSchritte;
+            vSchritt = (vmax - vmin) / anzahlSchritte;
 
             this.genauigkeit = genauigkeit;
             this.alleKraefte = alleKraefte;
