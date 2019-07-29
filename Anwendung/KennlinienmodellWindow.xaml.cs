@@ -10,7 +10,7 @@ namespace Anwendung
     ///  
     public partial class KennlinienmodellWindow : Window
     {
-        internal event EventHandler<KennlinienberechnungArgs> KennlinienberechnungAngefordert;
+        internal event EventHandler<KennlinienmodellArgs> KennlinienberechnungAngefordert;
 
         public KennlinienmodellWindow()
         {
@@ -18,7 +18,7 @@ namespace Anwendung
             KennlinienberechnungAngefordert += StarteBerechnung;
         }
 
-        private void StarteBerechnung(object sender, KennlinienberechnungArgs args)
+        private void StarteBerechnung(object sender, KennlinienmodellArgs args)
         {
             Console.WriteLine("vmin = " + args.Startgeschwindigkeit);
             Console.WriteLine("vmax = " + args.Endgeschwindigkeit);
@@ -36,22 +36,19 @@ namespace Anwendung
             {
                 try
                 {
-                    KennlinienberechnungArgs args = BelegeKennlinienberechnungArgumente();
+                    KennlinienmodellArgs args = BelegeKennlinienberechnungArgumente();
                     args.PruefeKonsistenz();
                     eventHandler(this, args);
                 }
-                catch (FormatException)
-                {
-                }
-                catch (InconsistentInputException)
+                catch (CharacteristicCurveInputException)
                 {
                 }
             }
         }
 
-        private KennlinienberechnungArgs BelegeKennlinienberechnungArgumente()
+        private KennlinienmodellArgs BelegeKennlinienberechnungArgumente()
         {
-            KennlinienberechnungArgs args = new KennlinienberechnungArgs();
+            KennlinienmodellArgs args = new KennlinienmodellArgs();
 
             try
             {
@@ -61,7 +58,7 @@ namespace Anwendung
                 args.BelegeAnzahlPunkte(AnzahlPunkte.Text);
                 args.BelegeAlleKraefte(AlleKraefte.IsChecked.Value);
             }
-            catch (FormatException)
+            catch (CharacteristicCurveInputException)
             {
                 throw;
             }

@@ -3,28 +3,13 @@ using System.Windows;
 
 namespace Anwendung
 {
-    class InconsistentInputException : Exception
+    public class KennlinienmodellArgs
     {
-        public InconsistentInputException()
-        {
-        }
-
-        public InconsistentInputException(String message) : base(message)
-        {
-        }
-
-        public InconsistentInputException(String message, Exception innerException) : base(message, innerException)
-        {
-        }
-    }
-
-    class KennlinienberechnungArgs
-    {
-        internal double Genauigkeit { get; set; }
-        internal double Startgeschwindigkeit { get; set; }
-        internal double Endgeschwindigkeit { get; set; }
-        internal int AnzahlPunkte { get; set; }
-        internal bool AlleKraefte { get; set; }
+        public double Genauigkeit { get; set; }
+        public double Startgeschwindigkeit { get; set; }
+        public double Endgeschwindigkeit { get; set; }
+        public int AnzahlPunkte { get; set; }
+        public bool AlleKraefte { get; set; }
 
 
         internal void BelegeGenauigkeit(double value)
@@ -41,7 +26,7 @@ namespace Anwendung
             catch (FormatException)
             {
                 MessageBox.Show("Bitte geben Sie eine Gleitkommazahl für die Startwindgeschwindigkeit ein.");
-                throw;
+                throw new CharacteristicCurveInputException("Falsches Format für die Startwindgeschwindigkeit");
             }
         }
                
@@ -54,7 +39,7 @@ namespace Anwendung
             catch (FormatException)
             {
                 MessageBox.Show("Bitte geben Sie eine Gleitkommazahl für die Endwindgeschwindigkeit ein.");
-                throw;
+                throw new CharacteristicCurveInputException("Falsches Format für die Endwindgeschwindigkeit");
             }
         }
 
@@ -67,7 +52,7 @@ namespace Anwendung
             catch (FormatException)
             {
                 MessageBox.Show("Bitte geben Sie eine ganze Zahl für die Anzahl der Simulationspunkte ein.");
-                throw;
+                throw new CharacteristicCurveInputException("Falsches Format für die Anzahl der Simulationspunkte");
             }
         }
 
@@ -84,7 +69,7 @@ namespace Anwendung
                 PruefeKonsistenzEndgeschwindigkeit();
                 PruefeKonsistenzAnzahlPunkte();
             }
-            catch (InconsistentInputException)
+            catch (CharacteristicCurveInputException)
             {
                 throw;
             }
@@ -95,7 +80,7 @@ namespace Anwendung
             if (Startgeschwindigkeit < 0.0)
             {
                 MessageBox.Show("Bitte geben Sie eine nicht-negative Startwindgeschwindigkeit ein.");
-                throw new InconsistentInputException("Nicht-negative Startwindgeschwindigkeit");
+                throw new CharacteristicCurveInputException("Nicht-negative Startwindgeschwindigkeit");
             }
         }
 
@@ -104,7 +89,7 @@ namespace Anwendung
             if (Endgeschwindigkeit <= Startgeschwindigkeit)
             {
                 MessageBox.Show("Bitte geben Sie eine Endwindgeschwindigkeit ein, die größer als die Startwindgeschwindigkeit ist.");
-                throw new InconsistentInputException("Endwindgeschwindigkeit ist kleiner/gleich der Startgeschwindigkeit");
+                throw new CharacteristicCurveInputException("Endwindgeschwindigkeit ist kleiner/gleich der Startgeschwindigkeit");
             }
         }
 
@@ -113,7 +98,7 @@ namespace Anwendung
             if (AnzahlPunkte <= 0)
             {
                 MessageBox.Show("Bitte geben Sie eine positive Zahl für die Anzahl der Simulationspunkte ein.");
-                throw new InconsistentInputException("Endwindgeschwindigkeit ist kleiner/gleich der Startgeschwindigkeit");
+                throw new CharacteristicCurveInputException("Endwindgeschwindigkeit ist kleiner/gleich der Startgeschwindigkeit");
             }
         }
     }
