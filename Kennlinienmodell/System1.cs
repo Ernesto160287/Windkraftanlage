@@ -10,10 +10,10 @@ namespace Kennlinienmodell
         internal double Seilkraft { get; private set; }  // Seilkraft
         Vektor2 P2P5;  // Verbindungsvektor Steuerfahne und Trägerkonstruktion
 
-        internal System1(Integration integrator, Func<double, double> cW, Func<double, double> cA) : base()
+        internal System1(Func<double, double> cW, Func<double, double> cA) : base()
         {
             bauteile = new Bauteil[1];
-            bauteile[0] = new Steuerfahne(integrator, cW, cA);
+            bauteile[0] = new Steuerfahne(cW, cA);
         }
 
         protected override void AktualisierePunkte(double alpha, double beta)
@@ -32,19 +32,19 @@ namespace Kennlinienmodell
             return Vektor2.Zero();
         }
 
-        internal override void WerteAus(double v, double alpha, double beta)
+        internal override void WerteAus(double v, double alpha, double beta, Integration integrator)
         {
-            BerechneDrehmomente(v, alpha, beta);
+            BerechneDrehmomente(v, alpha, beta, integrator);
 
             Seillaenge = BerechneSeillaenge();
             Seilkraft = BerechneSeilkraft();
 
-            BerechneKraefte(v, alpha, beta);
+            BerechneKraefte(v, alpha, beta, integrator);
         }
 
-        protected override void BerechneDrehmomente(double v, double alpha, double beta)
+        protected override void BerechneDrehmomente(double v, double alpha, double beta, Integration integrator)
         {
-            gesamtdrehmomentBauteile = BerechneGesamtdrehmomentBauteile(v, alpha, beta);
+            gesamtdrehmomentBauteile = BerechneGesamtdrehmomentBauteile(v, alpha, beta, integrator);
 
             MSeil = -gesamtdrehmomentBauteile;
             MGelenk = 0.0;
@@ -60,9 +60,9 @@ namespace Kennlinienmodell
             return Seillaenge * gesamtdrehmomentBauteile / (punkte.P2.y * P2P5.x - punkte.P2.x * P2P5.y);
         }
 
-        protected override void BerechneKraefte(double v, double alpha, double beta)
+        protected override void BerechneKraefte(double v, double alpha, double beta, Integration integrator)
         {
-            gesamtkraftBauteile = BerechneGesamtkraftBauteile(v, alpha, beta);
+            gesamtkraftBauteile = BerechneGesamtkraftBauteile(v, alpha, beta, integrator);
 
             FSeil = Seilkraft / Seillaenge * P2P5;
             FGelenk = -(gesamtkraftBauteile + FSeil);
@@ -74,13 +74,13 @@ namespace Kennlinienmodell
             return (BerechneSeillaenge(), BerechneSeilkraft());
         }
 
-        internal override double[] GebeOptionaleKraefteAus(double v, double alpha, double beta)
+        internal override double[] GebeOptionaleKraefteAus(double v, double alpha, double beta, Integration integrator)
         {
             double[] optionaleKraefte = new double[3];
 
             optionaleKraefte[0] = FGelenk.Norm();
-            optionaleKraefte[1] = bauteile[0].BerechneWiderstandskraft(v, alpha, beta).Norm();
-            optionaleKraefte[2] = bauteile[0].BerechneAuftriebskraft(v, alpha, beta).Norm();
+            optionaleKraefte[1] = bauteile[0].BerechneWiderstandskraft(v, alpha, beta, integrator).Norm();
+            optionaleKraefte[2] = bauteile[0].BerechneAuftriebskraft(v, alpha, beta, integrator).Norm();
 
             return optionaleKraefte;
         }

@@ -2,7 +2,6 @@
 using Anwendung;
 using MathematikWerkzeuge;
 
-
 namespace Kennlinienmodell
 {
     public class Modell
@@ -84,8 +83,8 @@ namespace Kennlinienmodell
 
         void InitialisiereSysteme()
         {
-            system1 = new System1(numerik.integrator, numerik.cW, numerik.cA);
-            system2 = new System2(numerik.integrator, numerik.cW, numerik.cA);
+            system1 = new System1(numerik.cW, numerik.cA);
+            system2 = new System2(numerik.cW, numerik.cA);
         }
         void InitialisiereOptionaleKraefte()
         {
@@ -137,9 +136,9 @@ namespace Kennlinienmodell
 
         double BerechneGesamtdrehmoment(double alphaVar)
         {
-            system1.Loese(v, alphaVar, beta);
+            system1.Loese(v, alphaVar, beta, numerik.integrator);
             UebertrageKraefteVonSystem1AufSystem2();
-            system2.Loese(v, alphaVar, beta);
+            system2.Loese(v, alphaVar, beta, numerik.integrator);
 
             return system2.BerechneGesamtdrehmoment();
         }
@@ -184,13 +183,13 @@ namespace Kennlinienmodell
 
         void SpeichereOptionaleKraefteSystem1()
         {
-            double[] optionaleKraefteSystem1 = system1.GebeOptionaleKraefteAus(v, alpha, beta);
+            double[] optionaleKraefteSystem1 = system1.GebeOptionaleKraefteAus(v, alpha, beta, numerik.integrator);
             optionaleKraefte.SpeichereAktuelleWerteSystem1(optionaleKraefteSystem1);
         }
 
         void SpeichereOptionaleKraefteSystem2()
         {
-            double[] optionaleKraefteSystem2 = system2.GebeOptionaleKraefteAus(v, alpha, beta);
+            double[] optionaleKraefteSystem2 = system2.GebeOptionaleKraefteAus(v, alpha, beta, numerik.integrator);
             optionaleKraefte.SpeichereAktuelleWerteSystem2(optionaleKraefteSystem2);
         }
     }
