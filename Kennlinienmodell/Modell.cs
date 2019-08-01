@@ -1,5 +1,4 @@
 ﻿using System;
-using Anwendung;
 using MathematikWerkzeuge;
 
 namespace Kennlinienmodell
@@ -46,17 +45,6 @@ namespace Kennlinienmodell
 
             this.genauigkeit = genauigkeit;
             this.alleKraefte = alleKraefte;
-        }
-
-        public Modell(KennlinienmodellArgs args)
-        {
-            new Modell(
-                args.Startgeschwindigkeit,
-                args.Endgeschwindigkeit,
-                args.AnzahlPunkte,
-                args.Genauigkeit,
-                args.AlleKraefte
-                );
         }
 
         public void Initialisiere()

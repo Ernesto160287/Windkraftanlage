@@ -54,10 +54,6 @@
     <Compile Include="Traeger3.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Anwendung\Anwendung.csproj">
-      <Project>{78fa3379-6d9d-4c4f-bbca-3bf12ce9ec9a}</Project>
-      <Name>Anwendung</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MathematikWerkzeuge\MathematikWerkzeuge.csproj">
       <Project>{59464ae4-fe7d-483a-95d0-9e5352bcd862}</Project>
       <Name>MathematikWerkzeuge</Name>

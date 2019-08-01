@@ -15,7 +15,13 @@ namespace Anwendung
         public KennlinienmodellWindow()
         {
             InitializeComponent();
+
             KennlinienberechnungAngefordert += StarteBerechnung;
+            Closing += KennlinienmodellWindow_Schliessen;
+
+            ButtonStarteBerechnung.Click += ButtonStarteBerechnung_Anklicken;
+
+
         }
 
         private void StarteBerechnung(object sender, KennlinienmodellArgs args)
@@ -28,7 +34,25 @@ namespace Anwendung
             Console.WriteLine("alleKraefte = " + args.AlleKraefte);
         }
 
-        private void ButtonStarteBerechnung_Click(object sender, RoutedEventArgs e)
+        private void KennlinienmodellWindow_Schliessen(object sender, CancelEventArgs e)
+        {
+            switch (MessageBox.Show("Möchten Sie die Daten vor dem Schließen speichern?", "Kennlinienmodell", MessageBoxButton.YesNoCancel))
+            {
+                case MessageBoxResult.Yes:
+                    //TODO
+                    MessageBox.Show("Speichervorgang ist noch nicht implementiert");
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ButtonStarteBerechnung_Anklicken(object sender, RoutedEventArgs e)
         {
             var eventHandler = KennlinienberechnungAngefordert;
 
@@ -64,24 +88,6 @@ namespace Anwendung
             }
 
             return args;
-        }
-
-        private void KennlinienmodellWindow_Closing(object sender, CancelEventArgs e)
-        {
-            switch (MessageBox.Show("Möchten Sie die Daten vor dem Schließen speichern?", "Kennlinienmodell", MessageBoxButton.YesNoCancel))
-            {
-                case MessageBoxResult.Yes:
-                    //TODO
-                    MessageBox.Show("Speichervorgang ist noch nicht implementiert");
-                    break;
-                case MessageBoxResult.No:
-                    break;
-                case MessageBoxResult.Cancel:
-                    e.Cancel = true;
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anwendung"
         mc:Ignorable="d"
-        Title="Kennlinienmodell" Height="450" Width="600" Closing="KennlinienmodellWindow_Closing">
+        Title="Kennlinienmodell" Height="450" Width="600">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="207" Text="Kennlinienmodell"/>
         <TextBlock HorizontalAlignment="Left" Margin="30,80,0,0" TextWrapping="Wrap" FontSize="20"  VerticalAlignment="Top" Text="Simulationsparameter"/>
@@ -16,13 +16,13 @@
         <TextBlock HorizontalAlignment="Left" Margin="30,230,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Anzahl Simulationspunkte"/>
         <TextBox x:Name="AnzahlPunkte" HorizontalAlignment="Left" Margin="280,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
         <TextBlock HorizontalAlignment="Left" Margin="30,280,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Numerische Genauigkeit"/>
-        <TextBlock HorizontalAlignment="Left" Margin="280,298,0,0" TextWrapping="Wrap" Text="1e-2" VerticalAlignment="Top" RenderTransformOrigin="-0.403,0.604"/>
+        <TextBlock HorizontalAlignment="Left" Margin="280,298,0,0" TextWrapping="Wrap" Text="1e-2" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="368,298,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="1e-"/><Run Text="4"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="456,298,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="1e-"/><Run Text="6"/></TextBlock>
         <ScrollBar x:Name="Genauigkeit" Margin="280,276,0,0" Orientation="Horizontal" Minimum="2" Maximum="6" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" />
         <TextBlock HorizontalAlignment="Left" Margin="30,330,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Sämtliche Kräfte berechnen"/>
         <CheckBox x:Name="AlleKraefte" HorizontalAlignment="Left" Margin="280,332,0,0" VerticalAlignment="Top"/>
         <Image Margin="366,10,0,179" Source="Kennlinienmodell.PNG" Stretch="Fill" HorizontalAlignment="Left" Width="216"/>
-        <Button x:Name="ButtonStarteBerechnung" Content="Starte Berechnung" Margin="442,359,0,0" Click="ButtonStarteBerechnung_Click" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"/>
+        <Button x:Name="ButtonStarteBerechnung" Content="Starte Berechnung" Margin="442,359,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120"/>
     </Grid>
 </Window>
