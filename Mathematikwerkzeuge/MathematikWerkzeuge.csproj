@@ -43,6 +43,7 @@
     <Compile Include="Interpolation\KubischeInterpolation.cs" />
     <Compile Include="Interpolation\LineareInterpolation.cs" />
     <Compile Include="Interpolation\Tridiagonalmatrix.cs" />
+    <Compile Include="MainMethode.cs" />
     <Compile Include="Nullstelle\Bisektionsverfahren.cs" />
     <Compile Include="Nullstelle\Nullstellenapproximation.cs" />
     <Compile Include="Nullstelle\NullstellenapproximationAusIntervall.cs" />

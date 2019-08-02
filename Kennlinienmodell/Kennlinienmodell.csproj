@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Bauteil.cs" />
     <Compile Include="LinkeRotorgondelseite.cs" />
+    <Compile Include="MainMethode.cs" />
     <Compile Include="Modell.cs" />
     <Compile Include="Modellwerte.cs" />
     <Compile Include="Numerikhilfsmittel.cs" />

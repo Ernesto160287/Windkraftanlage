@@ -144,5 +144,11 @@
   <ItemGroup>
     <Resource Include="Kennlinienmodell.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kennlinienmodell\Kennlinienmodell.csproj">
+      <Project>{6212c294-9670-4ce1-aee3-aa751e8d1675}</Project>
+      <Name>Kennlinienmodell</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
