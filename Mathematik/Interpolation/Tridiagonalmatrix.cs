@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathematikWerkzeuge.Interpolation
+namespace Mathematik.Interpolation
 {
     sealed class Tridiagonalmatrix
     {

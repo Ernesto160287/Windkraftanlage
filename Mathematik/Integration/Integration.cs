@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathematikWerkzeuge.Integration
+namespace Mathematik.Integration
 {
     interface IIntegration
     {

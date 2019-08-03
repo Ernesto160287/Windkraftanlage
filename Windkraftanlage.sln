@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kennlinienmodell", "Kennlinienmodell\Kennlinienmodell.csproj", "{6212C294-9670-4CE1-AEE3-AA751E8D1675}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathematikWerkzeuge", "MathematikWerkzeuge\MathematikWerkzeuge.csproj", "{59464AE4-FE7D-483A-95D0-9E5352BCD862}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bahnkurve", "Bahnkurve\Bahnkurve.csproj", "{306B4939-2EE8-4E1C-B3F7-73827D9644BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anwendung", "Anwendung\Anwendung.csproj", "{78FA3379-6D9D-4C4F-BBCA-3BF12CE9EC9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematik", "Mathematik\Mathematik.csproj", "{49BF6A43-05C5-4A49-9D13-2232C5220F9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kennlinienmodell", "Kennlinienmodell\Kennlinienmodell.csproj", "{59441A5B-814F-438B-92BC-D5301D6B22D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6212C294-9670-4CE1-AEE3-AA751E8D1675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6212C294-9670-4CE1-AEE3-AA751E8D1675}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6212C294-9670-4CE1-AEE3-AA751E8D1675}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6212C294-9670-4CE1-AEE3-AA751E8D1675}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59464AE4-FE7D-483A-95D0-9E5352BCD862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59464AE4-FE7D-483A-95D0-9E5352BCD862}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59464AE4-FE7D-483A-95D0-9E5352BCD862}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59464AE4-FE7D-483A-95D0-9E5352BCD862}.Release|Any CPU.Build.0 = Release|Any CPU
 		{306B4939-2EE8-4E1C-B3F7-73827D9644BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{306B4939-2EE8-4E1C-B3F7-73827D9644BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{306B4939-2EE8-4E1C-B3F7-73827D9644BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +25,14 @@ Global
 		{78FA3379-6D9D-4C4F-BBCA-3BF12CE9EC9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78FA3379-6D9D-4C4F-BBCA-3BF12CE9EC9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78FA3379-6D9D-4C4F-BBCA-3BF12CE9EC9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49BF6A43-05C5-4A49-9D13-2232C5220F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49BF6A43-05C5-4A49-9D13-2232C5220F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49BF6A43-05C5-4A49-9D13-2232C5220F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49BF6A43-05C5-4A49-9D13-2232C5220F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59441A5B-814F-438B-92BC-D5301D6B22D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59441A5B-814F-438B-92BC-D5301D6B22D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59441A5B-814F-438B-92BC-D5301D6B22D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59441A5B-814F-438B-92BC-D5301D6B22D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
