@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathematikWerkzeuge.Integration
+namespace Mathematik.Integration
 {
     public class SimpsonRegel : Integration
     {

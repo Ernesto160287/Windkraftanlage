@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathematikWerkzeuge.Interpolation
+namespace Mathematik.Interpolation
 {
     public class KubischeInterpolation : Interpolation
     {

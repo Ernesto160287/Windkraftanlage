@@ -1,4 +1,4 @@
-﻿namespace MathematikWerkzeuge.Interpolation
+﻿namespace Mathematik.Interpolation
 {
     public class LineareInterpolation : Interpolation
     {
