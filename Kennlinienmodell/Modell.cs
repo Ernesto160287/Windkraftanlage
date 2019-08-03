@@ -1,5 +1,5 @@
 ﻿using System;
-using MathematikWerkzeuge;
+using Mathematik;
 
 namespace Kennlinienmodell
 {

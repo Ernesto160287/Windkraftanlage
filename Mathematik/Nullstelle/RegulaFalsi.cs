@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathematikWerkzeuge.Nullstelle
+namespace Mathematik.Nullstelle
 {
     public class RegulaFalsi : NullstellenApproximationAusIntervall
     {

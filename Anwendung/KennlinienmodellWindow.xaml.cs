@@ -26,10 +26,12 @@ namespace Anwendung
 
             InitialisiereButtonStarteBerechnung();
             InitialisiereButtonBrecheBerechnungAb();
+            InitialisiereButtonSpeichereErgebnisse();
 
             Closing += KennlinienmodellWindow_Schliessen;
 
         }
+
         private void InitialisiereHintergrundarbeiter()
         {
             // Ausführung des Hintergrund-Prozesses
@@ -143,21 +145,48 @@ namespace Anwendung
             hintergrundArbeiter.CancelAsync();
         }
 
+        private void InitialisiereButtonSpeichereErgebnisse()
+        {
+            ButtonSpeichereErgebnisse.IsEnabled = false;
+            ButtonSpeichereErgebnisse.Click += ButtonSpeichereErgebnisse_Anklicken;
+        }
+
+        private void ButtonSpeichereErgebnisse_Anklicken(object sender, RoutedEventArgs e)
+        {
+            //TODO
+            MessageBox.Show("Speichervorgang ist noch nicht implementiert");
+        }
+
         private void KennlinienmodellWindow_Schliessen(object sender, CancelEventArgs e)
         {
-            switch (MessageBox.Show("Möchten Sie die Daten vor dem Schließen speichern?", "Kennlinienmodell", MessageBoxButton.YesNoCancel))
+            if (ButtonSpeichereErgebnisse.IsEnabled)
             {
-                case MessageBoxResult.Yes:
-                    //TODO
-                    MessageBox.Show("Speichervorgang ist noch nicht implementiert");
-                    break;
-                case MessageBoxResult.No:
-                    break;
-                case MessageBoxResult.Cancel:
-                    e.Cancel = true;
-                    break;
-                default:
-                    break;
+                switch (MessageBox.Show("Möchten Sie die Daten vor dem Schließen speichern?", "Kennlinienmodell", MessageBoxButton.YesNoCancel))
+                {
+                    case MessageBoxResult.Yes:
+                         ButtonSpeichereErgebnisse_Anklicken(this, new RoutedEventArgs());
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                    case MessageBoxResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (MessageBox.Show("Möchten Sie die Kennlinienberechnung wirklich beenden?", "Kennlinienmodell", MessageBoxButton.YesNo))
+                {
+                    case MessageBoxResult.Yes:
+                        break;
+                    case MessageBoxResult.No:
+                        e.Cancel = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

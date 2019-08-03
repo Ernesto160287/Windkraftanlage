@@ -1,4 +1,4 @@
-﻿using MathematikWerkzeuge;
+﻿using Mathematik;
 using System;
 
 namespace Kennlinienmodell

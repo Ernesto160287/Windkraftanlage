@@ -1,6 +1,6 @@
-﻿using MathematikWerkzeuge.Integration;
-using MathematikWerkzeuge.Interpolation;
-using MathematikWerkzeuge.Nullstelle;
+﻿using Mathematik.Integration;
+using Mathematik.Interpolation;
+using Mathematik.Nullstelle;
 using System;
 
 namespace Kennlinienmodell

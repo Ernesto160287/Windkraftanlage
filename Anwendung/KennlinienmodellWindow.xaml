@@ -26,6 +26,8 @@
         <Button x:Name="ButtonStarteBerechnung" Content="Starten" Margin="600,30,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
         <Button x:Name="ButtonBrecheBerechnungAb" Content="Abbrechen" Margin="750,30,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
         <ProgressBar x:Name="Forschrittanzeige" HorizontalAlignment="Left" Height="15" Margin="600,75,0,0" VerticalAlignment="Top" Width="270"/>
-        <ListBox x:Name="Ergebnisse" HorizontalAlignment="Left" Height="255" Margin="600,105,0,0" VerticalAlignment="Top" Width="270"/>
+        <ListBox x:Name="Ergebnisse" HorizontalAlignment="Left" Height="210" Margin="600,105,0,0" VerticalAlignment="Top" Width="270"/>
+        <Button x:Name="ButtonSpeichereErgebnisse" Content="Speichern" Margin="750,330,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
+
     </Grid>
 </Window>

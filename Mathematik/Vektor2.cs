@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathematikWerkzeuge
+namespace Mathematik
 {
     public struct Vektor2 : IEquatable<Vektor2>
     {

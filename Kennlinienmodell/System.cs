@@ -1,5 +1,5 @@
-﻿using MathematikWerkzeuge;
-using MathematikWerkzeuge.Integration;
+﻿using Mathematik;
+using Mathematik.Integration;
 using System;
 
 namespace Kennlinienmodell
