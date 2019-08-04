@@ -149,6 +149,10 @@
       <Project>{59441a5b-814f-438b-92bc-d5301d6b22d5}</Project>
       <Name>Kennlinienmodell</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mathematik\Mathematik.csproj">
+      <Project>{49bf6a43-05c5-4a49-9d13-2232c5220f9f}</Project>
+      <Name>Mathematik</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

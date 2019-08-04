@@ -12,26 +12,10 @@ namespace Anwendung
         {
             InitializeComponent();
 
-            Closing += MainWindow_Schliessen; 
-
             ButtonKennlinienmodell.Click += ButtonKennlinienmodell_Anklicken;
             ButtonBahnkurve.Click += ButtonBahnkurve_Anklicken;
 
-        }
-
-        private void MainWindow_Schliessen(object sender, CancelEventArgs e)
-        {
-            switch (MessageBox.Show("Möchten Sie die Windkraftanlage-Simulationen wirklich beenden?", "Windkraftanlage", MessageBoxButton.YesNo))
-            {
-                case MessageBoxResult.Yes:
-                    break;
-                case MessageBoxResult.No:
-                    e.Cancel = true;
-                    break;
-                default:
-                    break;
-            }
-
+            Closing += MainWindow_Schliessen;
         }
 
         private void ButtonKennlinienmodell_Anklicken(object sender, RoutedEventArgs e)
@@ -44,6 +28,26 @@ namespace Anwendung
         {
             //TODO
             MessageBox.Show("Simulationen zur Bahnkurve sind noch nicht implementiert");
+        }
+
+        private void MainWindow_Schliessen(object sender, CancelEventArgs e)
+        {
+            AbfrageFensterSchliessen(ref e);
+
+        }
+
+        private void AbfrageFensterSchliessen(ref CancelEventArgs e)
+        {
+            switch (MessageBox.Show("Möchten Sie die Windkraftanlage-Simulationen wirklich beenden?", "Windkraftanlage", MessageBoxButton.YesNo))
+            {
+                case MessageBoxResult.Yes:
+                    break;
+                case MessageBoxResult.No:
+                    e.Cancel = true;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

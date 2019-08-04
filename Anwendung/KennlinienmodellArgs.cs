@@ -11,13 +11,36 @@ namespace Anwendung
         public int AnzahlPunkte { get; set; }
         public bool AlleKraefte { get; set; }
 
+        internal void BelegeArgumente(double valueGenauigkeit,
+                                      string textStartgeschwindigkeit,
+                                      string textEndgeschwindigkeit,
+                                      string textAnzahlPunkte,
+                                      bool valueAlleKraefte
+                                      )
+        {
 
-        internal void BelegeGenauigkeit(double value)
+            try
+            {
+                BelegeGenauigkeit(valueGenauigkeit);
+                BelegeStartgeschwindigkeit(textStartgeschwindigkeit);
+                BelegeEndgeschwindigkeit(textEndgeschwindigkeit);
+                BelegeAnzahlPunkte(textAnzahlPunkte);
+                BelegeAlleKraefte(valueAlleKraefte);
+
+                PruefeKonsistenz();
+            }
+            catch (CharacteristicCurveInputException)
+            {
+                throw;
+            }
+        }
+         
+        private void BelegeGenauigkeit(double value)
         {
             Genauigkeit = Math.Pow(10, -value);
         }
 
-        internal void BelegeStartgeschwindigkeit(string text)
+        private void BelegeStartgeschwindigkeit(string text)
         {
             try
             {
@@ -30,7 +53,7 @@ namespace Anwendung
             }
         }
                
-        internal void BelegeEndgeschwindigkeit(string text)
+        private void BelegeEndgeschwindigkeit(string text)
         {
             try
             {
@@ -43,7 +66,7 @@ namespace Anwendung
             }
         }
 
-        internal void BelegeAnzahlPunkte(string text)
+        private void BelegeAnzahlPunkte(string text)
         {
             try
             {
@@ -56,12 +79,12 @@ namespace Anwendung
             }
         }
 
-        internal void BelegeAlleKraefte(bool value)
+        private void BelegeAlleKraefte(bool value)
         {
             AlleKraefte = value;
         }
 
-        internal void PruefeKonsistenz()
+        private void PruefeKonsistenz()
         {
             try
             {

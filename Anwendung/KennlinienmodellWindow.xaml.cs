@@ -1,4 +1,5 @@
 ﻿using Kennlinienmodell;
+using Mathematik;
 using System;
 using System.ComponentModel;
 using System.Threading;
@@ -12,7 +13,7 @@ namespace Anwendung
     ///  
     public partial class KennlinienmodellWindow : Window
     {
-        private BackgroundWorker hintergrundArbeiter = new BackgroundWorker();
+        private BackgroundWorker backgroundWorker;
         private event EventHandler<KennlinienmodellArgs> KennlinienberechnungAngefordert;
 
 
@@ -22,70 +23,32 @@ namespace Anwendung
 
             InitialisiereHintergrundarbeiter();
 
-            KennlinienberechnungAngefordert += StarteBerechnung;
-
             InitialisiereButtonStarteBerechnung();
             InitialisiereButtonBrecheBerechnungAb();
             InitialisiereButtonSpeichereErgebnisse();
+            InitialisiereTextBoxStatus();
 
+            KennlinienberechnungAngefordert += StarteBerechnung;
             Closing += KennlinienmodellWindow_Schliessen;
 
         }
 
         private void InitialisiereHintergrundarbeiter()
         {
-            // Ausführung des Hintergrund-Prozesses
-            hintergrundArbeiter.DoWork += FuehreArbeitAus;
-            hintergrundArbeiter.RunWorkerCompleted += ArbeitAbgeschlossen;
+            backgroundWorker =  new BackgroundWorker();
+
+            // Start des Hintergrund-Prozesses
+            backgroundWorker.DoWork += FuehrHintergrundProzessAus;
 
             // Fortschrittsmeldung des Hintergrund-Prozesses
-            hintergrundArbeiter.WorkerReportsProgress = true;
-            hintergrundArbeiter.ProgressChanged += FortschrittGeaendert;
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.ProgressChanged += HintergrundProzessFortschrittGeaendert;
+
+            // Ende des Hintergrund-Prozesses
+            backgroundWorker.RunWorkerCompleted += HintergrundProzessAbgeschlossen;
 
             // Abbruch des Hintergrund-Prozesses
-            hintergrundArbeiter.WorkerSupportsCancellation = true;
-        }
-
-        // Läuft auf dem Hintergrund-Thread
-        private void FuehreArbeitAus(object sender, DoWorkEventArgs e)
-        {
-            Modell modell = new Modell(
-                              ((KennlinienmodellArgs)e.Argument).Startgeschwindigkeit,
-                              ((KennlinienmodellArgs)e.Argument).Endgeschwindigkeit,
-                              ((KennlinienmodellArgs)e.Argument).AnzahlPunkte,
-                              ((KennlinienmodellArgs)e.Argument).Genauigkeit,
-                              ((KennlinienmodellArgs)e.Argument).AlleKraefte
-                            );
-
-            Thread.Sleep(5000);
-
-            Console.WriteLine("vmin = " + ((KennlinienmodellArgs)e.Argument).Startgeschwindigkeit);
-            Console.WriteLine("vmax = " + ((KennlinienmodellArgs)e.Argument).Endgeschwindigkeit);
-            Console.WriteLine("anzahlSchritte = " + ((KennlinienmodellArgs)e.Argument).AnzahlPunkte);
-            Console.WriteLine("genauigkeit = " + ((KennlinienmodellArgs)e.Argument).Genauigkeit);
-            Console.WriteLine("alleKraefte = " + ((KennlinienmodellArgs)e.Argument).AlleKraefte);
-        }
-
-        // Läuft auf dem UI-Thread
-        private void ArbeitAbgeschlossen(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //TODO: genaue Verarbeitung der Ausgabe mit e.Result
-            ButtonStarteBerechnung.IsEnabled = !hintergrundArbeiter.IsBusy;
-            ButtonBrecheBerechnungAb.IsEnabled = hintergrundArbeiter.IsBusy;
-        }
-
-        // Läuft auf dem UI-Thread
-        private void FortschrittGeaendert(object sender, ProgressChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        // Läuft auf dem UI-Thread
-        private void StarteBerechnung(object sender, KennlinienmodellArgs args)
-        {
-            hintergrundArbeiter.RunWorkerAsync(args);
-            ButtonStarteBerechnung.IsEnabled = !hintergrundArbeiter.IsBusy;
-            ButtonBrecheBerechnungAb.IsEnabled = hintergrundArbeiter.IsBusy;
+            backgroundWorker.WorkerSupportsCancellation = true;
         }
 
         private void InitialisiereButtonStarteBerechnung()
@@ -93,6 +56,124 @@ namespace Anwendung
             ButtonStarteBerechnung.IsEnabled = true;
             ButtonStarteBerechnung.Click += ButtonStarteBerechnung_Anklicken;
         }
+
+        private void InitialisiereButtonBrecheBerechnungAb()
+        {
+            ButtonBrecheBerechnungAb.IsEnabled = false;
+            ButtonBrecheBerechnungAb.Click += ButtonBrecheBerechnungAb_Anklicken;
+        }
+
+        private void InitialisiereButtonSpeichereErgebnisse()
+        {
+            ButtonSpeichereErgebnisse.IsEnabled = false;
+            ButtonSpeichereErgebnisse.Click += ButtonSpeichereErgebnisse_Anklicken;
+        }
+
+        private void InitialisiereTextBoxStatus()
+        {
+            TextBoxStatus.Text = "Berechnung noch nicht gestartet";
+        }
+
+        // EVENT HANDLER DES HINTERGRUNDARBEITERS
+
+        // Läuft auf dem Hintergrund-Thread
+        private void FuehrHintergrundProzessAus(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = (BackgroundWorker)sender;
+
+            KennlinienmodellArgs args = (KennlinienmodellArgs)e.Argument;
+
+            Modell modell = new Modell(args.Startgeschwindigkeit,
+                                       args.Endgeschwindigkeit,
+                                       args.AnzahlPunkte,
+                                       args.Genauigkeit,
+                                       args.AlleKraefte
+                                       );
+
+            modell.Initialisiere();
+
+            for (int i = 1; i <= args.AnzahlPunkte; i++)
+            {
+                if (backgroundWorker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+
+                try
+                {
+                    Thread.Sleep(1000);
+                    // modell.VerarbeiteSchritt();
+                }
+                catch (NumericsFailedException)
+                {
+                     continue;
+                }
+
+                if (worker.WorkerReportsProgress)
+                {
+                    string aktuelleWerte = BerechneAktuelleWerte(i);
+                    int fortschritt = BerechneFortschritt(i, args.AnzahlPunkte);
+                    worker.ReportProgress(fortschritt, aktuelleWerte);
+                }
+            }
+        }
+
+        private string BerechneAktuelleWerte(int i)
+        {
+            return "Aktueller Schritt:" + i;
+        }
+
+        private int BerechneFortschritt(int aktuellerPunkte, int anzahlPunkte)
+        {
+            return (int)((float)aktuellerPunkte / (float)anzahlPunkte * 100);
+        }
+
+        // Läuft auf dem UI-Thread
+        private void HintergrundProzessFortschrittGeaendert(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBarForschrittanzeige.Value = e.ProgressPercentage;
+            ListBoxErgebnisse.Items.Add(e.UserState.ToString());
+        }
+
+        // Läuft auf dem UI-Thread
+        private void HintergrundProzessAbgeschlossen(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+            }
+            else if (e.Cancelled)
+            {
+                BrecheBerechnungAb();
+            }
+            else
+            {
+                SchliesseBerechnungAb(e);
+            }
+            SetzeButtonsRelativeZuBackgroundWorker();
+        }
+
+        private void BrecheBerechnungAb()
+        {
+            ProgressBarForschrittanzeige.Value = 0.0;
+            TextBoxStatus.Text = "Berechnung abgebrochen";
+        }
+
+        private void SchliesseBerechnungAb(RunWorkerCompletedEventArgs e)
+        {
+            //TODO: genaue Verarbeitung der Ausgabe mit e.Result
+            ProgressBarForschrittanzeige.Value = 0.0;
+            TextBoxStatus.Text = "Berechnung abgeschlossen";
+            ButtonSpeichereErgebnisse.IsEnabled = true;
+        }
+
+        private void SetzeButtonsRelativeZuBackgroundWorker()
+        {
+            ButtonStarteBerechnung.IsEnabled = !backgroundWorker.IsBusy;
+            ButtonBrecheBerechnungAb.IsEnabled = backgroundWorker.IsBusy;
+        }
+
+        // EVENT HANDLER DER BUTTONS
 
         // Läuft auf dem UI-Thread
         private void ButtonStarteBerechnung_Anklicken(object sender, RoutedEventArgs e)
@@ -104,7 +185,6 @@ namespace Anwendung
                 try
                 {
                     KennlinienmodellArgs args = BelegeKennlinienberechnungArgumente();
-                    args.PruefeKonsistenz();
                     eventHandler(this, args);
                 }
                 catch (CharacteristicCurveInputException)
@@ -119,11 +199,12 @@ namespace Anwendung
 
             try
             {
-                args.BelegeGenauigkeit(Genauigkeit.Value);
-                args.BelegeStartgeschwindigkeit(Startgeschwindigkeit.Text);
-                args.BelegeEndgeschwindigkeit(Endgeschwindigkeit.Text);
-                args.BelegeAnzahlPunkte(AnzahlPunkte.Text);
-                args.BelegeAlleKraefte(AlleKraefte.IsChecked.Value);
+                args.BelegeArgumente(Genauigkeit.Value,
+                                     Startgeschwindigkeit.Text,
+                                     Endgeschwindigkeit.Text,
+                                     AnzahlPunkte.Text,
+                                     AlleKraefte.IsChecked.Value
+                                     );
             }
             catch (CharacteristicCurveInputException)
             {
@@ -133,25 +214,31 @@ namespace Anwendung
             return args;
         }
 
-        private void InitialisiereButtonBrecheBerechnungAb()
+        private void StarteBerechnung(object sender, KennlinienmodellArgs args)
         {
-            ButtonBrecheBerechnungAb.IsEnabled = false;
-            ButtonBrecheBerechnungAb.Click += ButtonBrecheBerechnungAb_Anklicken;
+            IntialisiereBerechnung();
+            backgroundWorker.RunWorkerAsync(args);
+            SetzeButtonsRelativeZuBackgroundWorker();
         }
 
-        // Läuft auf dem UI-Thread
+        private void IntialisiereBerechnung()
+        {
+            ListBoxErgebnisse.Items.Clear();
+            ButtonSpeichereErgebnisse.IsEnabled = false;
+            TextBoxStatus.Text = "Berechnung gestartet";
+        }
+
         private void ButtonBrecheBerechnungAb_Anklicken(object sender, RoutedEventArgs e)
         {
-            hintergrundArbeiter.CancelAsync();
-        }
-
-        private void InitialisiereButtonSpeichereErgebnisse()
-        {
-            ButtonSpeichereErgebnisse.IsEnabled = false;
-            ButtonSpeichereErgebnisse.Click += ButtonSpeichereErgebnisse_Anklicken;
+            backgroundWorker.CancelAsync();
         }
 
         private void ButtonSpeichereErgebnisse_Anklicken(object sender, RoutedEventArgs e)
+        {
+            SpeichereErgebnisse();
+        }
+
+        private void SpeichereErgebnisse()
         {
             //TODO
             MessageBox.Show("Speichervorgang ist noch nicht implementiert");
@@ -161,32 +248,42 @@ namespace Anwendung
         {
             if (ButtonSpeichereErgebnisse.IsEnabled)
             {
-                switch (MessageBox.Show("Möchten Sie die Daten vor dem Schließen speichern?", "Kennlinienmodell", MessageBoxButton.YesNoCancel))
-                {
-                    case MessageBoxResult.Yes:
-                         ButtonSpeichereErgebnisse_Anklicken(this, new RoutedEventArgs());
-                        break;
-                    case MessageBoxResult.No:
-                        break;
-                    case MessageBoxResult.Cancel:
-                        e.Cancel = true;
-                        break;
-                    default:
-                        break;
-                }
+                AbfrageErgebnisseSpeichern(ref e);
             }
             else
             {
-                switch (MessageBox.Show("Möchten Sie die Kennlinienberechnung wirklich beenden?", "Kennlinienmodell", MessageBoxButton.YesNo))
-                {
-                    case MessageBoxResult.Yes:
-                        break;
-                    case MessageBoxResult.No:
-                        e.Cancel = true;
-                        break;
-                    default:
-                        break;
-                }
+                AbfrageFensterSchliessen(ref e);
+            }
+        }
+
+        private void AbfrageErgebnisseSpeichern(ref CancelEventArgs e)
+        {
+            switch (MessageBox.Show("Möchten Sie die Daten vor dem Schließen speichern?", "Kennlinienmodell", MessageBoxButton.YesNoCancel))
+            {
+                case MessageBoxResult.Yes:
+                    SpeichereErgebnisse();
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void AbfrageFensterSchliessen(ref CancelEventArgs e)
+        {
+            switch (MessageBox.Show("Möchten Sie die Kennlinienberechnung wirklich beenden?", "Kennlinienmodell", MessageBoxButton.YesNo))
+            {
+                case MessageBoxResult.Yes:
+                    break;
+                case MessageBoxResult.No:
+                    e.Cancel = true;
+                    break;
+                default:
+                    break;
             }
         }
     }

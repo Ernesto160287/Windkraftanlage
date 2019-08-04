@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anwendung"
         mc:Ignorable="d"
-        Title="Kennlinienmodell" Height="420" Width="910">
+        Title="Kennlinienmodell" Height="420" Width="1010">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="207" Text="Kennlinienmodell"/>
         <TextBlock HorizontalAlignment="Left" Margin="30,80,0,0" TextWrapping="Wrap" FontSize="20"  VerticalAlignment="Top" Text="Simulationsparameter"/>
@@ -23,11 +23,11 @@
         <TextBlock HorizontalAlignment="Left" Margin="30,330,0,0" TextWrapping="Wrap" FontSize="16"  VerticalAlignment="Top" Text="Sämtliche Kräfte berechnen"/>
         <CheckBox x:Name="AlleKraefte" HorizontalAlignment="Left" Margin="280,332,0,0" VerticalAlignment="Top"/>
         <Image Margin="363,48,0,152" Source="Kennlinienmodell.PNG" Stretch="Fill" HorizontalAlignment="Left" Width="212"/>
-        <Button x:Name="ButtonStarteBerechnung" Content="Starten" Margin="600,30,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
-        <Button x:Name="ButtonBrecheBerechnungAb" Content="Abbrechen" Margin="750,30,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
-        <ProgressBar x:Name="Forschrittanzeige" HorizontalAlignment="Left" Height="15" Margin="600,75,0,0" VerticalAlignment="Top" Width="270"/>
-        <ListBox x:Name="Ergebnisse" HorizontalAlignment="Left" Height="210" Margin="600,105,0,0" VerticalAlignment="Top" Width="270"/>
-        <Button x:Name="ButtonSpeichereErgebnisse" Content="Speichern" Margin="750,330,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
-
+        <Button x:Name="ButtonStarteBerechnung" Content="Starten" Margin="650,30,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
+        <Button x:Name="ButtonBrecheBerechnungAb" Content="Abbrechen" Margin="800,30,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
+        <ProgressBar x:Name="ProgressBarForschrittanzeige" HorizontalAlignment="Left" Height="15" Margin="600,75,0,0" VerticalAlignment="Top" Width="130"/>
+        <TextBox  x:Name="TextBoxStatus" HorizontalAlignment="Left" Margin="740,73.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <ListBox x:Name="ListBoxErgebnisse" HorizontalAlignment="Left" Height="210" Margin="600,105,0,0" VerticalAlignment="Top" Width="370"/>
+        <Button x:Name="ButtonSpeichereErgebnisse" Content="Speichern" Margin="850,330,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" RenderTransformOrigin="1.767,-8.4"/>
     </Grid>
 </Window>

@@ -21,7 +21,6 @@ namespace Kennlinienmodell
         readonly double genauigkeit;
         readonly bool alleKraefte;
 
-        readonly int anzahlSchritte;
         readonly double vSchritt;
 
         double v;
@@ -40,7 +39,6 @@ namespace Kennlinienmodell
         public Modell(double vmin, double vmax, int anzahlSchritte, double genauigkeit, bool alleKraefte = false)
         {
             v = vmin;
-            this.anzahlSchritte = anzahlSchritte;
             vSchritt = (vmax - vmin) / anzahlSchritte;
 
             this.genauigkeit = genauigkeit;
@@ -79,24 +77,14 @@ namespace Kennlinienmodell
             optionaleKraefte = new OptionaleKraefte();
         }
 
-        public void Verarbeite()
+        public void VerarbeiteSchritt()
         {
-            for (int i = 0; i < anzahlSchritte; i++)
-            {
-                AktualisiereGeschwindigkeit();
+            AktualisiereGeschwindigkeit();
 
-                beta = BestimmteBeta();
+            beta = BestimmteBeta();
+            alpha = BestimmeAlpha();
 
-                try
-                {
-                    alpha = BestimmeAlpha();
-                    SpeichereWerte();
-                }
-                catch (NumericsFailedException)
-                {
-                    continue;
-                }
-            }
+            SpeichereWerte();
         }
 
         void AktualisiereGeschwindigkeit()
