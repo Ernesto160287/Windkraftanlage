@@ -5,19 +5,17 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 
-namespace Anwendung
+namespace Anwendung.WindowKennlinie
 {
     /// <summary>
-    /// Interaktionslogik für KennlinienmodellWindow.xaml
+    /// Interaktionslogik für KennlinieView.xaml
     /// </summary>
-    ///  
-    public partial class KennlinienmodellWindow : Window
+    public partial class KennlinieView : Window
     {
         private BackgroundWorker backgroundWorker;
         private event EventHandler<KennlinienmodellArgs> KennlinienberechnungAngefordert;
 
-
-        public KennlinienmodellWindow()
+        public KennlinieView()
         {
             InitializeComponent();
 
@@ -35,7 +33,7 @@ namespace Anwendung
 
         private void InitialisiereHintergrundarbeiter()
         {
-            backgroundWorker =  new BackgroundWorker();
+            backgroundWorker = new BackgroundWorker();
 
             // Start des Hintergrund-Prozesses
             backgroundWorker.DoWork += FuehrHintergrundProzessAus;
@@ -107,7 +105,7 @@ namespace Anwendung
                 }
                 catch (NumericsFailedException)
                 {
-                     continue;
+                    continue;
                 }
 
                 if (worker.WorkerReportsProgress)

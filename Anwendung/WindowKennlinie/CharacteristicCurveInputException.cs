@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anwendung
+namespace Anwendung.WindowKennlinie
 {
     class CharacteristicCurveInputException : Exception
     {

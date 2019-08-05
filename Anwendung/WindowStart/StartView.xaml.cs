@@ -1,14 +1,15 @@
-﻿using System.ComponentModel;
+﻿using Anwendung.WindowKennlinie;
+using System.ComponentModel;
 using System.Windows;
 
-namespace Anwendung
+namespace Anwendung.WindowStart
 {
     /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
+    /// Interaktionslogik für StartView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class StartView : Window
     {
-        public MainWindow()
+        public StartView()
         {
             InitializeComponent();
 
@@ -20,8 +21,8 @@ namespace Anwendung
 
         private void ButtonKennlinienmodell_Anklicken(object sender, RoutedEventArgs e)
         {
-            KennlinienmodellWindow kennlinienmodellWindow = new KennlinienmodellWindow();
-            kennlinienmodellWindow.Show();
+            KennlinieView kennlinieWindow = new KennlinieView();
+            kennlinieWindow.Show();
         }
 
         private void ButtonBahnkurve_Anklicken(object sender, RoutedEventArgs e)
@@ -51,3 +52,5 @@ namespace Anwendung
         }
     }
 }
+
+
