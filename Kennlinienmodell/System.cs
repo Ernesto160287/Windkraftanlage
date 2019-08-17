@@ -1,6 +1,5 @@
 ﻿using Mathematik;
 using Mathematik.Integration;
-using System;
 
 namespace Kennlinienmodell
 {

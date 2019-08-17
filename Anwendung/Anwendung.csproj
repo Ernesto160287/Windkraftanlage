@@ -75,6 +75,7 @@
     <Compile Include="WindowKennlinie\KennlinieView.xaml.cs">
       <DependentUpon>KennlinieView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowKennlinie\KennlinieViewModel.cs" />
     <Compile Include="WindowStart\StartView.xaml.cs">
       <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
@@ -84,6 +85,7 @@
     </Compile>
     <Compile Include="WindowKennlinie\CharacteristicCurveInputException.cs" />
     <Compile Include="WindowKennlinie\KennlinienmodellArgs.cs" />
+    <Compile Include="WindowStart\StartViewModel.cs" />
     <Page Include="WindowKennlinie\KennlinieView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

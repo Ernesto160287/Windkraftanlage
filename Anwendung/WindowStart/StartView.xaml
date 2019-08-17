@@ -7,7 +7,7 @@
         Title="Windkraftanlage" Height="414" Width="640">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Height="36" Margin="30,30,0,0" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" Width="441" Text="Sturmsicherung einer Windkraftanlage"/>
-        <Button x:Name="ButtonKennlinienmodell" Content="Kennlinienmodell" HorizontalAlignment="Left" Height="30" Margin="482,242,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="ButtonKennlinie" Content="Kennlinienmodell" HorizontalAlignment="Left" Height="30" Margin="482,242,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="ButtonBahnkurve" Content="Bahnkurve" HorizontalAlignment="Left" Height="30" Margin="482,302,0,0" VerticalAlignment="Top" Width="120"/>
         <Image Margin="30,80,190,24" Source="Titelbild.PNG" Stretch="Fill"/>
         <Image Margin="502,44,44,285" Source="LogoSpaichingen.PNG" Stretch="Fill"/>

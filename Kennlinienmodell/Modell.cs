@@ -1,5 +1,4 @@
 ﻿using System;
-using Mathematik;
 
 namespace Kennlinienmodell
 {
@@ -26,6 +25,7 @@ namespace Kennlinienmodell
         double v;
         double alpha;
         double beta;
+
         double? seillaengeStart;
 
         Numerikhilfsmittel numerik;
@@ -83,8 +83,6 @@ namespace Kennlinienmodell
 
             beta = BestimmteBeta();
             alpha = BestimmeAlpha();
-
-            SpeichereWerte();
         }
 
         void AktualisiereGeschwindigkeit()
@@ -123,6 +121,21 @@ namespace Kennlinienmodell
         {
             system2.FSeil = -system1.FSeil;
             system2.FGelenk = -system1.FGelenk;
+        }
+
+        public string GebeAktuelleModellwerteAus()
+        {
+            (double seillaenge, double seilkraft) = BestimmeAktuelleSeillaengeUndSeilkraft();
+
+            return "v = " + v + ", alpha = " + alpha;
+        }
+
+        (double, double) BestimmeAktuelleSeillaengeUndSeilkraft()
+        {
+            double seillaenge = VerkuerzeUmSeillaengeStart(system1.Seillaenge);
+            double seilkraft = system1.Seilkraft;
+
+            return (seillaenge, seilkraft);
         }
 
         void SpeichereWerte()

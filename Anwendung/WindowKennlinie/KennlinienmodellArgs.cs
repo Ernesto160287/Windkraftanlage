@@ -12,93 +12,52 @@ namespace Anwendung.WindowKennlinie
         public bool AlleKraefte { get; set; }
 
         internal void BelegeArgumente(double valueGenauigkeit,
-                                      string textStartgeschwindigkeit,
-                                      string textEndgeschwindigkeit,
-                                      string textAnzahlPunkte,
+                                      double textStartgeschwindigkeit,
+                                      double textEndgeschwindigkeit,
+                                      int textAnzahlPunkte,
                                       bool valueAlleKraefte
                                       )
         {
-
-            try
-            {
-                BelegeGenauigkeit(valueGenauigkeit);
-                BelegeStartgeschwindigkeit(textStartgeschwindigkeit);
-                BelegeEndgeschwindigkeit(textEndgeschwindigkeit);
-                BelegeAnzahlPunkte(textAnzahlPunkte);
-                BelegeAlleKraefte(valueAlleKraefte);
-
-                PruefeKonsistenz();
-            }
-            catch (CharacteristicCurveInputException)
-            {
-                throw;
-            }
+            BelegeGenauigkeit(valueGenauigkeit);
+            BelegeStartgeschwindigkeit(textStartgeschwindigkeit);
+            BelegeEndgeschwindigkeit(textEndgeschwindigkeit);
+            BelegeAnzahlPunkte(textAnzahlPunkte);
+            BelegeAlleKraefte(valueAlleKraefte);
         }
          
-        private void BelegeGenauigkeit(double value)
+        void BelegeGenauigkeit(double value)
         {
             Genauigkeit = Math.Pow(10, -value);
         }
 
-        private void BelegeStartgeschwindigkeit(string text)
+        void BelegeStartgeschwindigkeit(double text)
         {
-            try
-            {
-                Startgeschwindigkeit = Double.Parse(text);
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Bitte geben Sie eine Gleitkommazahl für die Startwindgeschwindigkeit ein.");
-                throw new CharacteristicCurveInputException("Falsches Format für die Startwindgeschwindigkeit");
-            }
+            Startgeschwindigkeit = text;
         }
                
-        private void BelegeEndgeschwindigkeit(string text)
+        void BelegeEndgeschwindigkeit(double text)
         {
-            try
-            {
-                Endgeschwindigkeit = Double.Parse(text);
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Bitte geben Sie eine Gleitkommazahl für die Endwindgeschwindigkeit ein.");
-                throw new CharacteristicCurveInputException("Falsches Format für die Endwindgeschwindigkeit");
-            }
+                Endgeschwindigkeit = text;
         }
 
-        private void BelegeAnzahlPunkte(string text)
+        void BelegeAnzahlPunkte(int text)
         {
-            try
-            {
-                AnzahlPunkte = Int32.Parse(text);
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Bitte geben Sie eine ganze Zahl für die Anzahl der Simulationspunkte ein.");
-                throw new CharacteristicCurveInputException("Falsches Format für die Anzahl der Simulationspunkte");
-            }
+            AnzahlPunkte = text;
         }
 
-        private void BelegeAlleKraefte(bool value)
+        void BelegeAlleKraefte(bool value)
         {
             AlleKraefte = value;
         }
 
-        private void PruefeKonsistenz()
+        internal void PruefeKonsistenz()
         {
-            try
-            {
-                PruefeKonsistenzStartgeschwindigkeit();
-                PruefeKonsistenzEndgeschwindigkeit();
-                PruefeKonsistenzAnzahlPunkte();
-            }
-            catch (CharacteristicCurveInputException)
-            {
-                throw;
-            }
+            PruefeKonsistenzStartgeschwindigkeit();
+            PruefeKonsistenzEndgeschwindigkeit();
+            PruefeKonsistenzAnzahlPunkte();
         }
 
-        private void PruefeKonsistenzStartgeschwindigkeit()
+        void PruefeKonsistenzStartgeschwindigkeit()
         {
             if (Startgeschwindigkeit < 0.0)
             {
@@ -107,7 +66,7 @@ namespace Anwendung.WindowKennlinie
             }
         }
 
-        private void PruefeKonsistenzEndgeschwindigkeit()
+        void PruefeKonsistenzEndgeschwindigkeit()
         {
             if (Endgeschwindigkeit <= Startgeschwindigkeit)
             {
@@ -116,7 +75,7 @@ namespace Anwendung.WindowKennlinie
             }
         }
 
-        private void PruefeKonsistenzAnzahlPunkte()
+        void PruefeKonsistenzAnzahlPunkte()
         {
             if (AnzahlPunkte <= 0)
             {

@@ -1,5 +1,4 @@
-﻿using Anwendung.WindowKennlinie;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 
 namespace Anwendung.WindowStart
@@ -9,46 +8,16 @@ namespace Anwendung.WindowStart
     /// </summary>
     public partial class StartView : Window
     {
+        private StartViewModel viewModel;
         public StartView()
         {
             InitializeComponent();
+            viewModel = new StartViewModel();
 
-            ButtonKennlinienmodell.Click += ButtonKennlinienmodell_Anklicken;
-            ButtonBahnkurve.Click += ButtonBahnkurve_Anklicken;
+            ButtonKennlinie.Click += viewModel.StarteKennlinienberechnung;
+            ButtonBahnkurve.Click += viewModel.StarteBahnkurvenberechnung;
 
-            Closing += MainWindow_Schliessen;
-        }
-
-        private void ButtonKennlinienmodell_Anklicken(object sender, RoutedEventArgs e)
-        {
-            KennlinieView kennlinieWindow = new KennlinieView();
-            kennlinieWindow.Show();
-        }
-
-        private void ButtonBahnkurve_Anklicken(object sender, RoutedEventArgs e)
-        {
-            //TODO
-            MessageBox.Show("Simulationen zur Bahnkurve sind noch nicht implementiert");
-        }
-
-        private void MainWindow_Schliessen(object sender, CancelEventArgs e)
-        {
-            AbfrageFensterSchliessen(ref e);
-
-        }
-
-        private void AbfrageFensterSchliessen(ref CancelEventArgs e)
-        {
-            switch (MessageBox.Show("Möchten Sie die Windkraftanlage-Simulationen wirklich beenden?", "Windkraftanlage", MessageBoxButton.YesNo))
-            {
-                case MessageBoxResult.Yes:
-                    break;
-                case MessageBoxResult.No:
-                    e.Cancel = true;
-                    break;
-                default:
-                    break;
-            }
+            Closing += viewModel.SchliesseFenster;
         }
     }
 }
