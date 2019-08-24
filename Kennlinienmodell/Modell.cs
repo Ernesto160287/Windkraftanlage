@@ -95,7 +95,7 @@ namespace Kennlinienmodell
             double q = (4 * Parameter.PG)
                         / (3 * Parameter.eta * Parameter.rhoL * Math.Pow(v, 3) * Math.PI * Math.Pow(Parameter.r, 2));
 
-            if (q <= 1)
+            if (q <= 1.0)
                 return Math.Asin(q);
             else
                 return Math.PI / 2;

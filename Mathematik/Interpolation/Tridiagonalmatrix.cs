@@ -37,7 +37,7 @@ namespace Mathematik.Interpolation
             }
         }
 
-        private (double[], double[], double[]) InitialisiereTridiagonalelemente()
+        (double[], double[], double[]) InitialisiereTridiagonalelemente()
         {
             double[] a = new double[Dimension];
             double[] b = new double[Dimension];
@@ -59,7 +59,7 @@ namespace Mathematik.Interpolation
             return (a, b, c);
         }
 
-        private void ModifiziereKoeffizienten(ref double[] a, ref double[] b, ref double[] c, ref double[] d)
+        void ModifiziereKoeffizienten(ref double[] a, ref double[] b, ref double[] c, ref double[] d)
         {
             c[0] = c[0] / b[0];
             d[0] = d[0] / b[0];
@@ -73,32 +73,36 @@ namespace Mathematik.Interpolation
                                  / (b[Dimension - 1] - a[Dimension - 1] * c[Dimension - 2]);
         }
 
-        private double[] LoeseDurchRueckwaertseinsetzen(double[] c, double[] d)
+        double[] LoeseDurchRueckwaertseinsetzen(double[] c, double[] d)
         {
-            for (int i = (Dimension - 2); i == 0; i--)
+            double[] v = new double[Dimension];
+
+            v[Dimension - 1] = d[Dimension - 1];
+
+            for (int i = (Dimension - 2); i >= 0; i--)
             {
-                d[i] = d[i] - c[i] * d[i + 1];
+                v[i] = d[i] - c[i] * v[i + 1];
             }
 
-            return d;
+            return v;
         }
 
-        private bool IstLoesungsvektorKonsistent(double[] d)
+        bool IstLoesungsvektorKonsistent(double[] d)
         {
             return d.Length == Dimension;
         }
 
-        private bool IstUnteresNebendiagonalelement(int i, int j)
+        bool IstUnteresNebendiagonalelement(int i, int j)
         {
             return i == (j + 1);
         }
 
-        private bool IstHauptdiagonalelement(int i, int j)
+        bool IstHauptdiagonalelement(int i, int j)
         {
             return i == j;
         }
 
-        private bool IstOberesNebendiagonalelement(int i, int j)
+        bool IstOberesNebendiagonalelement(int i, int j)
         {
             return i == (j - 1);
         }

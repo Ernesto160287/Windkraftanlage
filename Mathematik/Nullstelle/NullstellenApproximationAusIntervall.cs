@@ -18,7 +18,7 @@ namespace Mathematik.Nullstelle
 
             if (!UnterschiedlicheVorzeichenAnIntervallgrenzen(funktion, untereGrenze, obereGrenze))
             {
-                Console.WriteLine("Die Funktionwerte an den Intervallgrenzen haben keine entgesetzte Vorzeichen");
+                Console.WriteLine("Die Funktionwerte an den Intervallgrenzen haben keine entgesetzten Vorzeichen");
                 return false;
             }
 
@@ -27,11 +27,24 @@ namespace Mathematik.Nullstelle
 
         protected bool ZulaessigeIntervallgrenzen(double untereGrenze, double obereGrenze)
         {
-            return (untereGrenze >= obereGrenze);
+            return (untereGrenze <= obereGrenze);
         }
 
         protected bool UnterschiedlicheVorzeichenAnIntervallgrenzen(Func<double, double> funktion, double untereGrenze, double obereGrenze)
         {
+            Console.WriteLine("untere Grenze a = " + untereGrenze);
+            Console.WriteLine("obere Grenze b =" + obereGrenze);
+            Console.WriteLine("f(a) = " + funktion(untereGrenze));
+            Console.WriteLine("f(b) = " + funktion(obereGrenze));
+
+            for (int i = 0; i < 100; i++)
+            {
+                double x =  untereGrenze + i * (obereGrenze - untereGrenze) / 10;
+                Console.WriteLine("x = " + x);
+                Console.WriteLine("f(x) = " + funktion(x));
+
+            }
+
             return (funktion(untereGrenze) * funktion(obereGrenze) < 0.0);
         }
 

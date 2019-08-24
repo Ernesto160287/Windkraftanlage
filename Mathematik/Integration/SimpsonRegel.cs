@@ -8,7 +8,7 @@ namespace Mathematik.Integration
         double flaecheTrapezVorher = 0.0;
 
         double flaecheSimpson;
-        double flaecheSimpsonvorher = 0.0;
+        double flaecheSimpsonVorher = 0.0;
 
         public SimpsonRegel(double genauigkeit) : base(genauigkeit)
         {
@@ -20,51 +20,61 @@ namespace Mathematik.Integration
 
             for (int i = 1; i <= 20; i++)
             {
-                AktualisiereFlaechen(funktion, untereGrenze, obereGrenze, n);
+                AktualisiereFlaecheTrapez(funktion, untereGrenze, obereGrenze, n);
+                AktualisiereFlaecheSimpson();
 
                 if (IstApproximationErfolgreich())
                 {
                     return flaecheSimpson;
                 }
 
-                UebertrageFlaechen();
-
-                n = 2 * n;
+                n = BereiteNaechstenIterationsschrittVor(n);
             }
 
             throw new NumericsFailedException("Die numerische Integration mittels Simpon-Regel konvergiert nicht.");
         }
 
-        private void AktualisiereFlaechen(Func<double, double> funktion, double untereGrenze, double obereGrenze, int n)
+        void AktualisiereFlaecheTrapez(Func<double, double> funktion, double untereGrenze, double obereGrenze, int n)
         {
             flaecheTrapez = Trapezregel(funktion, untereGrenze, obereGrenze, n);
-            flaecheSimpson = (4 * flaecheTrapez - flaecheTrapezVorher) / 4;
         }
 
-        private void UebertrageFlaechen()
-        {
-            flaecheSimpsonvorher = flaecheSimpson;
-            flaecheTrapezVorher = flaecheTrapez;
-        }
-
-        private double Trapezregel(Func<double, double> funktion, double untereGrenze, double obereGrenze, int n)
+        double Trapezregel(Func<double, double> funktion, double untereGrenze, double obereGrenze, int n)
         {
             double schrittweite = (obereGrenze - untereGrenze) / n;
-            Func<int, double> x = j => untereGrenze + j * schrittweite;
+            double summeRandwerte = funktion(untereGrenze) + funktion(obereGrenze);
+            double summeStuetzstellen = 0.0;
 
-            double integal = 0.5 * schrittweite * (funktion(untereGrenze) + funktion(obereGrenze));
-
-            for (int j = 1; j <= n - 1; j++)
+            if (n > 1)
             {
-                integal += funktion(x(j));
+                Func<int, double> x = j => untereGrenze + j * schrittweite;
+
+                for (int j = 1; j <= n - 1; j++)
+                {
+                    summeStuetzstellen += funktion(x(j));
+                }
             }
 
-            return integal;
+            return 0.5 * schrittweite * (summeRandwerte + 2 * summeStuetzstellen);
+
+        }
+
+        void AktualisiereFlaecheSimpson()
+        {
+            flaecheSimpson = (4.0 * flaecheTrapez - flaecheTrapezVorher) / 3.0;
         }
 
         protected override bool IstApproximationErfolgreich()
         {
-            return Math.Abs(flaecheSimpson - flaecheSimpsonvorher) < genauigkeit * Math.Abs(flaecheSimpsonvorher);
+            return Math.Abs(flaecheSimpson - flaecheSimpsonVorher) < genauigkeit * Math.Abs(flaecheSimpsonVorher);
+        }
+
+        int BereiteNaechstenIterationsschrittVor(int n)
+        {
+            flaecheSimpsonVorher = flaecheSimpson;
+            flaecheTrapezVorher = flaecheTrapez;
+
+            return 2 * n;
         }
     }
 }

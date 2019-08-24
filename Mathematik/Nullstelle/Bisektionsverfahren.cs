@@ -4,10 +4,10 @@ namespace Mathematik.Nullstelle
 {
     public class Bisektionsverfahren : NullstellenApproximationAusIntervall
     {
-        double xVorher;
+        double positionVorher;
 
-        double xAktuell;
-        double yAktuell;
+        double position;
+        double funktionswert;
 
         double intervallbreite;  // vorzeichenbehaftet
 
@@ -20,22 +20,24 @@ namespace Mathematik.Nullstelle
             if (!HatKonsistenteEingaben(funktion, untereGrenze, obereGrenze))
                 throw new InconsistentInputException("Die Eingaben sind unzulässig.");
 
-            (xVorher, intervallbreite) = BelegeStartposition(funktion, untereGrenze, obereGrenze);
+            (positionVorher, intervallbreite) = BelegeStartposition(funktion, untereGrenze, obereGrenze);
 
             for (int j = 1; j <= 200; j++)
             {
-                ErmittleNeueApproximation(funktion);
+                AktualisierePosition();
+
+                funktionswert = funktion(position);
 
                 if (IstApproximationErfolgreich())
-                    return xAktuell;
+                    return position;
                 else
-                    BereiteNaechstenIterationsschrittVor();
+                    AktualisierePositionVorher();
             }
 
             throw new NumericsFailedException("Das Bisektionsverfahren konvergiert nicht.");
         }
 
-        private (double, double) BelegeStartposition(Func<double, double> funktion, double untereGrenze, double obereGrenze)
+        (double, double) BelegeStartposition(Func<double, double> funktion, double untereGrenze, double obereGrenze)
         {
             if (funktion(untereGrenze) < 0.0)
                 return (untereGrenze, obereGrenze - untereGrenze);
@@ -43,22 +45,21 @@ namespace Mathematik.Nullstelle
                 return (obereGrenze, untereGrenze - obereGrenze);
         }
 
-        private void ErmittleNeueApproximation(Func<double, double> funktion)
+        void AktualisierePosition()
         {
             intervallbreite /= 2;
-            xAktuell = xVorher + intervallbreite;
-            yAktuell = funktion(xAktuell);
+            position = positionVorher + intervallbreite;
         }
 
         protected override bool IstApproximationErfolgreich()
         {
-            return (Math.Abs(intervallbreite) < genauigkeit || yAktuell == 0.0);
+            return (Math.Abs(intervallbreite) < genauigkeit || funktionswert == 0.0);
         }
 
-        private void BereiteNaechstenIterationsschrittVor()
+        void AktualisierePositionVorher()
         {
-            if (yAktuell < 0.0)
-                xVorher = xAktuell;
+            if (funktionswert < 0.0)
+                positionVorher = position;
         }
     }
 }

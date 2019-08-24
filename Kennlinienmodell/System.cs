@@ -12,11 +12,17 @@ namespace Kennlinienmodell
         protected double gesamtdrehmomentBauteile;
 
         internal Vektor2 FGelenk { get; set; }   // Gelenkraft
-        protected double MSeil = 0.0;    // Seildrehmoment
+        protected double MSeil;    // Seildrehmoment
         internal Vektor2 FSeil { get; set; }   // Seilkraft
         protected double MGelenk;      // Gelenkdrehmoment
 
         protected Bauteil[] bauteile;
+
+        protected System()
+        {
+            punkte = new Punkte();
+            MSeil = 0.0;
+        }
 
         internal void Loese(double v, double alpha, double beta, Integration integrator)
         {
@@ -47,14 +53,14 @@ namespace Kennlinienmodell
         }
 
         internal abstract void WerteAus(double v, double alpha, double beta, Integration integrator);
-
         protected abstract void BerechneKraefte(double v, double alpha, double beta, Integration integrator);
         protected abstract void BerechneDrehmomente(double v, double alpha, double beta, Integration integrator);
 
 
         protected Vektor2 BerechneGesamtkraftBauteile(double v, double alpha, double beta, Integration integrator)
         {
-            return BerechneWiderstandskraftBauteile(v, alpha, beta, integrator) + BerechneAuftriebskraftBauteile(v, alpha, beta, integrator);
+            return BerechneWiderstandskraftBauteile(v, alpha, beta, integrator)
+                   + BerechneAuftriebskraftBauteile(v, alpha, beta, integrator);
         }
 
         protected Vektor2 BerechneWiderstandskraftBauteile(double v, double alpha, double beta, Integration integrator)
@@ -81,7 +87,8 @@ namespace Kennlinienmodell
 
         protected double BerechneGesamtdrehmomentBauteile(double v, double alpha, double beta, Integration integrator)
         {
-            return BerechneWiderstandsdrehmomentBauteile(v, alpha, beta, integrator) + BerechneAuftriebsdrehmomentBauteile(v, alpha, beta, integrator);
+            return BerechneWiderstandsdrehmomentBauteile(v, alpha, beta, integrator)
+                   + BerechneAuftriebsdrehmomentBauteile(v, alpha, beta, integrator);
         }
 
         protected double BerechneWiderstandsdrehmomentBauteile(double v, double alpha, double beta, Integration integrator)

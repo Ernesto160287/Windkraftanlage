@@ -13,6 +13,11 @@ namespace Mathematik.Interpolation
 
         public KubischeInterpolation(double[] x, double[] y, bool sortierteDaten = true) : base(x, y, sortierteDaten)
         {
+            if (!GenuegendDatenVorhanden())
+            {
+                throw new InconsistentInputException("Die Menge an Datenpaare ist nicht ausreichend.");
+            }
+
             BelegeKoeffizienten();
         }
 
@@ -33,17 +38,22 @@ namespace Mathematik.Interpolation
             return a[i] * Math.Pow((p - x[i]), 3) + b[i] * Math.Pow((p - x[i]), 2) + c[i] * (p - x[i]) + d[i];
         }
 
-        private void BelegeKoeffizienten()
+        bool GenuegendDatenVorhanden()
+        {
+            return x.Length >= 4;
+        }
+
+        void BelegeKoeffizienten()
         {
             double[] y2 = LoeseKubischeInterpolation();  // Stützstellen für die zweite Ableitung
 
             a = BelegeKoeffizientenA(y2);
             b = BelegeKoeffizientenB(y2);
             c = BelegeKoeffizientenC(y2);
-            d = BelegeKoeffizientenD(y2);
+            d = BelegeKoeffizientenD();
         }
 
-        private double[] LoeseKubischeInterpolation()
+        double[] LoeseKubischeInterpolation()
         {
             double[] v = new double[anzahlDaten];
 
@@ -64,7 +74,7 @@ namespace Mathematik.Interpolation
             return v;
         }
 
-        private Tridiagonalmatrix ErzeugeTridiagonalmatrix()
+        Tridiagonalmatrix ErzeugeTridiagonalmatrix()
         {
             Tridiagonalmatrix T = new Tridiagonalmatrix(anzahlDaten - 2);
 
@@ -79,54 +89,59 @@ namespace Mathematik.Interpolation
             return T;
         }
 
-        private double[] ErzeugeKonstantenvektor()
+        double[] ErzeugeKonstantenvektor()
         {
             double[] v = new double[anzahlDaten - 2];
 
             for (int i = 0; i < v.Length; i++)
             {
-                v[i] = 6 / xDiff[i] * (y[i + 1] - y[i]) - 6 / xDiff[i + 1] * (y[i + 2] - y[i + 1]);
+                v[i] = 6 * (y[i + 2] - y[i + 1]) / xDiff[i + 1] - 6 * (y[i + 1] - y[i]) / xDiff[i];
             }
 
             return v;
         }
 
-        private double[] BelegeKoeffizientenA(double[] v)
+        double[] BelegeKoeffizientenA(double[] v)
         {
             double[] a = new double[anzahlDaten - 1];
 
             for (int i = 0; i < a.Length; i++)
             {
-                a[i] = 1 / (6 * xDiff[i]) * (v[i + 1] - v[i]);
+                a[i] = (v[i + 1] - v[i]) / (6 * xDiff[i]);
             }
             return a;
         }
 
-        private double[] BelegeKoeffizientenB(double[] v)
+        double[] BelegeKoeffizientenB(double[] v)
         {
             double[] b = new double[anzahlDaten - 1];
 
             for (int i = 0; i < b.Length; i++)
             {
-                b[i] = 1 / 2 * v[i];
+                b[i] = v[i] / 2;
             }
             return b;
         }
 
-        private double[] BelegeKoeffizientenC(double[] v)
+        double[] BelegeKoeffizientenC(double[] v)
         {
             double[] c = new double[anzahlDaten - 1];
 
             for (int i = 0; i < c.Length; i++)
             {
-                c[i] = 1 / xDiff[i] * (v[i + 1] - v[i]) - 1 / 6 * xDiff[i] * (v[i + 1] + 2 * v[i]);
+                c[i] = (y[i + 1] - y[i]) / xDiff[i] - xDiff[i] * (v[i + 1] + 2 * v[i]) / 6;
             }
             return c;
         }
 
-        private double[] BelegeKoeffizientenD(double[] v)
+        double[] BelegeKoeffizientenD()
         {
-            return v;
+            double[] d = new double[anzahlDaten - 1];
+            for (int i = 0; i < d.Length; i++)
+            {
+                d[i] = y[i];
+            }
+            return d;
         }
     }
 }

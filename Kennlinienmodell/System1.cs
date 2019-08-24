@@ -18,7 +18,7 @@ namespace Kennlinienmodell
 
         protected override void AktualisierePunkte(double alpha, double beta)
         {
-            base.Aktualisiere(alpha, beta);
+            base.AktualisierePunkte(alpha, beta);
             AktualisiereP2P5();
         }
 

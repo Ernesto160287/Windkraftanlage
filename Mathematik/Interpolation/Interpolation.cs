@@ -33,17 +33,17 @@ namespace Mathematik.Interpolation
 
         public abstract double Interpoliere(double p);
 
-        private bool AnzahlDatenIdentisch(double[] x, double[] y)
+        bool AnzahlDatenIdentisch(double[] x, double[] y)
         {
             return x.Length == y.Length;
         }
 
-        private bool DatenVorhanden(double[] x)
+        bool DatenVorhanden(double[] x)
         {
             return x.Length > 0;
         }
 
-        private void BelegeDaten(double[] x, double[] y, Boolean sortierteDaten)
+        void BelegeDaten(double[] x, double[] y, Boolean sortierteDaten)
         {
             anzahlDaten = x.Length;
 
@@ -56,7 +56,7 @@ namespace Mathematik.Interpolation
             this.y = y;
         }
 
-        private void BelegeDifferenzen()
+        void BelegeDifferenzen()
         {
             xDiff = new double[anzahlDaten - 1];
             for (int i = 0; i < (anzahlDaten - 1); i++)

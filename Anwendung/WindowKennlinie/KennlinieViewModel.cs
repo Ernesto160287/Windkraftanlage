@@ -1,10 +1,7 @@
 ﻿using Kennlinienmodell;
-using Mathematik;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading;
 using System.Windows;
 
 namespace Anwendung.WindowKennlinie
@@ -14,11 +11,11 @@ namespace Anwendung.WindowKennlinie
         BackgroundWorker backgroundWorker;
 
         #region Felder
-        double genauigkeit;
-        double startgeschwindigkeit;
-        double endgeschwindigkeit;
-        int anzahlPunkte;
-        bool alleKraefte;
+        double genauigkeit = 2.0;  // Startwert des Genauigkeitsreglers
+        double startgeschwindigkeit = 0.0;
+        double endgeschwindigkeit = 0.0;
+        int anzahlPunkte = 0;
+        bool alleKraefte = false;
 
         bool startenMoeglich = true;
         bool abbrechenMoeglich = false;
@@ -184,7 +181,7 @@ namespace Anwendung.WindowKennlinie
             backgroundWorker = new BackgroundWorker();
 
             // Start des Hintergrund-Prozesses
-            backgroundWorker.DoWork += FuehrHintergrundProzessAus;
+            backgroundWorker.DoWork += FuehreHintergrundProzessAus;
 
             // Fortschrittsmeldung des Hintergrund-Prozesses
             backgroundWorker.WorkerReportsProgress = true;
@@ -197,7 +194,7 @@ namespace Anwendung.WindowKennlinie
             backgroundWorker.WorkerSupportsCancellation = true;
         }
 
-        void FuehrHintergrundProzessAus(object sender, DoWorkEventArgs e)
+        void FuehreHintergrundProzessAus(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = (BackgroundWorker)sender;
             KennlinienmodellArgs args = (KennlinienmodellArgs)e.Argument;
@@ -219,14 +216,15 @@ namespace Anwendung.WindowKennlinie
                     break;
                 }
 
-                try
-                {
-                    modell.VerarbeiteSchritt();
-                }
-                catch (NumericsFailedException)
-                {
-                    continue;
-                }
+                modell.VerarbeiteSchritt();
+                //try
+                //{
+                //    modell.VerarbeiteSchritt();
+                //}
+                //catch (NumericsFailedException)
+                //{
+                //    continue;
+                //}
 
                 if (worker.WorkerReportsProgress)
                 {
@@ -302,7 +300,6 @@ namespace Anwendung.WindowKennlinie
         KennlinienmodellArgs BelegeKennlinienberechnungArgumente()
         {
             KennlinienmodellArgs args = new KennlinienmodellArgs();
-
             args.BelegeArgumente(Genauigkeit, Startgeschwindigkeit, Endgeschwindigkeit, AnzahlPunkte, AlleKraefte);
             args.PruefeKonsistenz();
 
